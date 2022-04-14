@@ -1,0 +1,75 @@
+package com.example.omapp.data
+
+import com.example.omapp.common.DataResponse
+import com.example.omapp.data.network.mapper.MovieListMapper
+import com.example.omapp.data.network.MovieAPI
+import com.example.omapp.data.network.NetworkDataSourceImpl
+import com.example.omapp.movie
+import com.example.omapp.movieListDTO
+import com.example.omapp.otherMovie
+import com.example.omapp.otherMovieListDTO
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.mockk
+import kotlinx.coroutines.runBlocking
+import org.junit.Before
+
+import org.junit.Assert.*
+import org.junit.Test
+import retrofit2.mock.Calls
+
+class NetworkDataSourceTest {
+
+    private lateinit var sut : DataSource
+    private val service = mockk<MovieAPI>()
+    private val mapper = MovieListMapper()
+
+    @Before
+    fun setUp() {
+        sut = NetworkDataSourceImpl(service, mapper)
+    }
+
+    @Test
+    fun `GIVEN response success with movie list WHEN get movies page 0 THEN return correct data response success`() {
+        runBlocking {
+            val page = 0
+            val from = 0
+            val expected = DataResponse.Success(listOf(movie))
+            coEvery { service.getMovies(any()) } returns Calls.response(movieListDTO)
+
+            val actual = sut.getMovieList(page)
+
+            coVerify { service.getMovies(from) }
+            assertEquals(expected, actual)
+        }
+    }
+
+    @Test
+    fun `GIVEN response success with OTHER movie list WHEN get movies page 1 THEN return correct data response success`() {
+        runBlocking {
+            val page = 1
+            val from = 5
+            val expected = DataResponse.Success(listOf(otherMovie))
+            coEvery { service.getMovies(any()) } returns Calls.response(otherMovieListDTO)
+
+            val actual = sut.getMovieList(page)
+
+            coVerify { service.getMovies(from) }
+            assertEquals(expected, actual)
+        }
+    }
+
+
+    @Test
+    fun `GIVEN response failure WHEN get movies THEN return correct data response success`() {
+        runBlocking {
+            val index = 0
+            coEvery { service.getMovies(any()) } returns Calls.failure(mockk())
+
+            val actual = sut.getMovieList(index)
+
+            coVerify { service.getMovies(index) }
+            assertTrue(actual.isFailure)
+        }
+    }
+}

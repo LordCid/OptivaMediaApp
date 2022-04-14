@@ -1,5 +1,6 @@
 package com.example.omapp.data
 
+import com.example.omapp.data.network.model.MovieListDTO
 import com.example.omapp.listMovieResponse
 import com.google.gson.Gson
 import junit.framework.Assert.assertNotNull
