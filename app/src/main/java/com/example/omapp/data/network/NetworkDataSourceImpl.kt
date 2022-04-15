@@ -2,7 +2,6 @@ package com.example.omapp.data.network
 
 import com.example.omapp.common.DataResponse
 import com.example.omapp.common.Mapper
-import com.example.omapp.data.DataSource
 import com.example.omapp.data.network.model.MovieListDTO
 import com.example.omapp.domain.model.Movie
 import retrofit2.awaitResponse
@@ -10,7 +9,7 @@ import retrofit2.awaitResponse
 class NetworkDataSourceImpl(
     private val service: MovieAPI,
     private val mapper: Mapper<List<Movie>, MovieListDTO>
-): DataSource {
+): NetworkDataSource {
     companion object {
         const val NETWORK_DATA_SOURCE_NAME = "LocalDataSourceImpl"
     }

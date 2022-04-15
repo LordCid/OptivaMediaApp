@@ -2,7 +2,7 @@ package com.example.omapp.common
 
 sealed class DataResponse<out T> {
     data class Success<out T>(val data: T) : DataResponse<T>()
-    data class Failure(val error: Throwable) : DataResponse<Nothing>()
+    object Failure : DataResponse<Nothing>()
 
     val isFailure get() = this is Failure
     val isSuccess get() = this is Success
@@ -16,7 +16,7 @@ sealed class DataResponse<out T> {
  */
 fun <T, R> DataResponse<R>.map(fn: (R) -> T): DataResponse<T> =
     when (this) {
-        is DataResponse.Failure -> DataResponse.Failure(error)
+        is DataResponse.Failure -> DataResponse.Failure
         is DataResponse.Success -> DataResponse.Success(fn(data))
     }
 
@@ -28,7 +28,7 @@ fun <T, R> DataResponse<R>.map(fn: (R) -> T): DataResponse<T> =
  */
 fun <T, R> DataResponse<R>.flatMap(fn: (R) -> DataResponse<T>): DataResponse<T> =
     when (this) {
-        is DataResponse.Failure -> DataResponse.Failure(error)
+        is DataResponse.Failure -> DataResponse.Failure
         is DataResponse.Success -> fn(data)
     }
 
@@ -38,9 +38,9 @@ fun <T, R> DataResponse<R>.flatMap(fn: (R) -> DataResponse<T>): DataResponse<T> 
  *     In the second one deal with the success value.
  * In functional programming this is called a Foldable (not exactly)
  */
-fun <T, R> DataResponse<R>.fold(foldFailure: (Throwable) -> T, foldSuccess: (R) -> T): T =
+fun <T, R> DataResponse<R>.fold(foldFailure: () -> T, foldSuccess: (R) -> T): T =
     when (this) {
-        is DataResponse.Failure -> foldFailure(error)
+        is DataResponse.Failure -> foldFailure()
         is DataResponse.Success -> foldSuccess(data)
     }
 

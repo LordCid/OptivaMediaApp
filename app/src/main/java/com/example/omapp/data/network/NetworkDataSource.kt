@@ -1,9 +1,9 @@
-package com.example.omapp.data
+package com.example.omapp.data.network
 
 import com.example.omapp.common.DataResponse
 import com.example.omapp.domain.model.Movie
 
-interface DataSource {
+interface NetworkDataSource {
     suspend fun getMovieList(page: Int): DataResponse<List<Movie>>
 }
 

@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-//    id 'kotlin-kapt'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -63,6 +63,14 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-android-processor:2.24"
 //    kapt "com.google.dagger:dagger-android-processor:2.24"
 
+
+    //Room
+    def room_version = "2.2.6"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    // optional - Kotlin Extensions and Coroutines support for Room
+    testImplementation "androidx.room:room-testing:$room_version" // optional - Test helpers
 
     //Glide
     implementation "com.github.bumptech.glide:glide:4.11.0"

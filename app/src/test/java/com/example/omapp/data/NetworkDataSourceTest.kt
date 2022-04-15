@@ -3,6 +3,7 @@ package com.example.omapp.data
 import com.example.omapp.common.DataResponse
 import com.example.omapp.data.network.mapper.MovieListMapper
 import com.example.omapp.data.network.MovieAPI
+import com.example.omapp.data.network.NetworkDataSource
 import com.example.omapp.data.network.NetworkDataSourceImpl
 import com.example.omapp.movie
 import com.example.omapp.movieListDTO
@@ -20,7 +21,7 @@ import retrofit2.mock.Calls
 
 class NetworkDataSourceTest {
 
-    private lateinit var sut : DataSource
+    private lateinit var sut : NetworkDataSource
     private val service = mockk<MovieAPI>()
     private val mapper = MovieListMapper()
 
