@@ -1,7 +1,6 @@
 package com.example.omapp.data.local
 
 import com.example.omapp.common.DataResponse
-import com.example.omapp.data.LocalDataSource
 import com.example.omapp.data.TimedCache
 import com.example.omapp.domain.model.Movie
 

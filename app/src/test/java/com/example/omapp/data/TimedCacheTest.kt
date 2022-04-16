@@ -18,8 +18,18 @@ class TimedCacheTest {
     }
 
     @Test
-    fun `GIVEN movies WHEN  set THEN movie list is sotred in cache`() {
+    fun `GIVEN no cached movies WHEN set movies THEN movie list is stored in cache`() {
         val expected = mutableListOf(movie)
+
+        sut.set(expected)
+
+        assertEquals(expected, sut.cache.first)
+    }
+
+    @Test
+    fun `GIVEN 15 cached movies WHEN set movies THEN old list is replaced by new list`() {
+        val expected = mutableListOf(movie)
+        givenPreviousCache(cache15Elements)
 
         sut.set(expected)
 
@@ -48,6 +58,9 @@ class TimedCacheTest {
 
         assertEquals(expected, actual)
     }
+
+    private val cache15Elements = MutableList(15) { movie}
+
 
     private  fun givenPreviousCache(movieList: MutableList<Movie>){
         sut.currentDate = {

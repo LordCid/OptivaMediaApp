@@ -1,4 +1,4 @@
-package com.example.omapp.data
+package com.example.omapp.data.local
 
 import com.example.omapp.common.DataResponse
 import com.example.omapp.domain.model.Movie
