@@ -10,9 +10,6 @@ class NetworkDataSourceImpl(
     private val service: MovieAPI,
     private val mapper: Mapper<List<Movie>, MovieListDTO>
 ): NetworkDataSource {
-    companion object {
-        const val NETWORK_DATA_SOURCE_NAME = "LocalDataSourceImpl"
-    }
 
     override suspend fun getMovieList(page: Int): DataResponse<List<Movie>> {
         return runCatching {
@@ -24,7 +21,7 @@ class NetworkDataSourceImpl(
                 it.body()?.apply { resultList = mapper.mapToDomainModel(this) }
                 DataResponse.Success(resultList)
             },
-            onFailure = { DataResponse.Failure(it) }
+            onFailure = { DataResponse.Failure }
         )
     }
 }

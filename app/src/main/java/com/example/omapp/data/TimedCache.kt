@@ -1,41 +1,41 @@
 package com.example.omapp.data
 
 import androidx.annotation.VisibleForTesting
+import com.example.omapp.domain.model.Movie
 import java.util.*
 
-class TimedCache(
-    private val lifetime: Long = 3 * 60 * 1000
-) {
+const val CACHE_LIFE_TIME = 30000L
 
-    private var cache: MutableMap<String, Pair<Any, Date>> = mutableMapOf()
+
+
+class TimedCache {
+
+    private val lifetime: Long = CACHE_LIFE_TIME
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    var cache: Pair<MutableList<Movie>, Date> = Pair(mutableListOf(), Date())
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     var currentDate: () -> Date = { Date() }
 
-    @Suppress("UNCHECKED_CAST")
-    operator fun <T> get(key: String): T? {
-        cache[key]?.let { (value, date) ->
-            return if (currentDate().time <= date.time) {
-                        value as T
-                    } else null
-        }
-        return null
+    fun get(): List<Movie> {
+        return if (currentDate().time <= cache.second.time)
+            cache.first
+        else
+            emptyList()
     }
 
-    operator fun set(key: String, value: Any?) {
+    fun set(value: MutableList<Movie>) {
         val validUntil = Date(currentDate().time + lifetime)
-        if (value != null) {
-            cache[key] = Pair(value, validUntil)
+        if(cache.first.isEmpty()){
+            cache = Pair(value, validUntil)
         } else {
-            cache.remove(key)
+            cache.first.addAll(value)
         }
     }
 
     fun invalidate() {
-        cache = mutableMapOf()
+        cache = Pair(mutableListOf(), Date())
     }
 
-    fun removeKeysByPattern(regex: Regex) {
-        cache.filterKeys { it.contains(regex) }.keys.forEach { cache.remove(it) }
-    }
 }
