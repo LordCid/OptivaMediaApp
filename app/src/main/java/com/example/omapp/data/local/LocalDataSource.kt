@@ -6,4 +6,5 @@ import com.example.omapp.domain.model.Movie
 interface LocalDataSource {
     suspend fun storeMovies(movies: List<Movie>)
     suspend fun getMovieList(): DataResponse<List<Movie>>
+    suspend fun invalidate()
 }

@@ -20,6 +20,7 @@ class RepositoryImpl(
             return if (currentDate().time <= it.time) {
                 localDataSource.getMovieList()
             } else {
+                localDataSource.invalidate()
                 getFromNetwork(page)
             }
         }

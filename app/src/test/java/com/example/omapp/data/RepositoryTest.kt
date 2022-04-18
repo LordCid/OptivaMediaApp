@@ -12,7 +12,6 @@ import io.mockk.mockk
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
-import org.junit.Ignore
 
 import org.junit.Test
 import java.util.*
@@ -80,12 +79,14 @@ class RepositoryTest {
             val movies = listOf(movie)
             givenPreviouslyStoredCache(movies)
             givenInstantWhenInvalidCache()
+            coEvery { localDataSource.invalidate() } returns Unit
 
             val actual = sut.getMovieList(page)
 
             coVerify(exactly = 1) { networkDataSource.getMovieList(page) }
             coVerify(atLeast = 2) { localDataSource.storeMovies(movies) }
             coVerify(exactly = 0){ localDataSource.getMovieList() }
+            coVerify(exactly = 1) { localDataSource.invalidate() }
             assertEquals(DataResponse.Success(movies), actual)
         }
     }
@@ -97,10 +98,6 @@ class RepositoryTest {
         coEvery { localDataSource.storeMovies(any()) } returns Unit
     }
 
-    private suspend fun givenCache(movies: List<Movie>) {
-        coEvery { localDataSource.getMovieList() } returns DataResponse.Success(movies)
-
-    }
 
     private suspend fun givenPreviouslyStoredCache(movies: List<Movie>){
         sut.currentDate = {
