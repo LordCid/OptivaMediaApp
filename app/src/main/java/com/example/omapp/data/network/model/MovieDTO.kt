@@ -8,5 +8,7 @@ data class MovieDTO(
     @SerializedName("description") val description: String,
     @SerializedName("definition") val definition: String,
     @SerializedName("year") val year: Int,
-    @SerializedName("duration") val duration: Long
+    @SerializedName("duration") val duration: Long,
+    @SerializedName("attachments") val attachments: List<AttachmentsDTO>,
+    @SerializedName("genreEntityList") val genreEntityList: List<GenereEntityDTO>,
 )

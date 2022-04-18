@@ -12,7 +12,9 @@ val movieListDTO = MovieListDTO(
             description = "description",
             definition = "HD",
             year = 2017,
-            duration = 7691000
+            duration = 7691000,
+            attachments = emptyList(),
+            genreEntityList = emptyList()
         )
     )
 )
@@ -34,7 +36,9 @@ val otherMovieListDTO = MovieListDTO(
             description = "other description",
             definition = "HD",
             year = 2019,
-            duration = 7691000
+            duration = 7691000,
+            attachments = emptyList(),
+            genreEntityList = emptyList()
         )
     )
 )
