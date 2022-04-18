@@ -1,35 +1,39 @@
 package com.example.omapp.data.local
 
 import com.example.omapp.common.DataResponse
-import com.example.omapp.data.TimedCache
+import com.example.omapp.common.Mapper
 import com.example.omapp.data.local.room.MovieDao
+import com.example.omapp.data.local.room.MovieRoomModel
 import com.example.omapp.domain.model.Movie
 
 
-const val MOVIE_LIST_CACHE = "MovieListCache"
-
 class LocalDataSourceImpl(
-    private val movieDao: MovieDao
+    private val movieDao: MovieDao,
+    private val movieToLocalMapper: Mapper<MovieRoomModel, Movie>,
+    private val localToMovieMapper: Mapper<Movie, MovieRoomModel>
 ) : LocalDataSource {
 
 
     override suspend fun storeMovies(movies: List<Movie>) {
-//        timedCache.set(movies.toMutableList())
+        movieDao.insertMovies(
+            movies.map { movieToLocalMapper.map(it) }
+        )
 
     }
 
     override suspend fun getMovieList(): DataResponse<List<Movie>> {
-//        timedCache.get().let {
-//            return if (it.isNotEmpty())
-//                DataResponse.Success(it)
-//            else
-//                DataResponse.Failure
-//        }
-        return DataResponse.Failure
+        movieDao.getMovies().let {
+            return if (it.isNotEmpty())
+                DataResponse.Success(
+                    it.map {roomModel -> localToMovieMapper.map(roomModel) }
+                )
+            else
+                DataResponse.Failure
+        }
     }
 
     override suspend fun invalidate() {
-        TODO("Not yet implemented")
+        movieDao.deleteMovies()
     }
 
 }

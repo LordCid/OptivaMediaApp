@@ -7,6 +7,7 @@ import com.example.omapp.domain.Repository
 import com.example.omapp.domain.model.Movie
 import java.util.*
 
+const val CACHE_LIFE_TIME = 30000L
 class RepositoryImpl(
     private val networkDataSource: NetworkDataSource,
     private val localDataSource: LocalDataSource

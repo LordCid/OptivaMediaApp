@@ -1,5 +1,5 @@
 package com.example.omapp.common
 
-interface Mapper<T, R> {
+interface Mapper<out T, in R> {
     fun map(input: R): T
 }

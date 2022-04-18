@@ -6,8 +6,11 @@ import androidx.room.*
 interface MovieDao {
 
     @Query("SELECT * FROM Movies")
-    fun getMovies(): List<MovieRoomModel>
+    suspend fun getMovies(): List<MovieRoomModel>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertMovies(autoBus: List<MovieRoomModel>)
+    suspend fun insertMovies(movies: List<MovieRoomModel>) : List<Long>
+
+    @Query("DELETE FROM Movies")
+    suspend fun deleteMovies()
 }

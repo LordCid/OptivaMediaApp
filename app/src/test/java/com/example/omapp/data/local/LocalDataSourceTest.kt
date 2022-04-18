@@ -1,12 +1,14 @@
 package com.example.omapp.data.local
 
 import com.example.omapp.common.DataResponse
-import com.example.omapp.data.TimedCache
+import com.example.omapp.data.local.mapper.LocalModelToMovieMapper
+import com.example.omapp.data.local.mapper.MovieToLocalModelMapper
 import com.example.omapp.data.local.room.MovieDao
+import com.example.omapp.data.local.room.MovieRoomModel
 import com.example.omapp.movie
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.verify
+import com.example.omapp.movieRoom
+import io.mockk.*
+import io.mockk.InternalPlatformDsl.toArray
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -18,52 +20,62 @@ class LocalDataSourceTest {
 
     private lateinit var sut: LocalDataSource
     private val movieDao = mockk<MovieDao>()
+    private val movieToLocalMapper = MovieToLocalModelMapper()
+    private val localToMovieMapper = LocalModelToMovieMapper()
 
     @Before
     fun setUp() {
-        sut = LocalDataSourceImpl(movieDao)
+        sut = LocalDataSourceImpl(movieDao, movieToLocalMapper, localToMovieMapper)
     }
 
-    @Ignore
     @Test
     fun `Given list of movies WHEN store list THEN  list is stored in cache`() {
         runBlocking {
-            val input = listOf(movie)
-            every { movieDao.insertMovies(any())} returns Unit
+            val movies = listOf(movie)
+            val localModelList = listOf(movieRoom)
+            coEvery { movieDao.insertMovies(any())} returns emptyList()
 
-            sut.storeMovies(input)
+           sut.storeMovies(movies)
 
-//            verify { movieDao.insertMovies(input)) }
+            coVerify { movieDao.insertMovies(localModelList) }
         }
     }
 
-
-    @Ignore
     @Test
-    fun `GIVEN movies in memory cache valid WHEN get movies THEN return movies`() {
+    fun `GIVEN movies in cache WHEN get movies THEN return movies`() {
         runBlocking {
-//            val movies = listOf(movie)
-//            val expected = DataResponse.Success(movies)
-//            every { timedCache.get() } returns movies
-//
-//            val actual = sut.getMovieList()
-//
-//            assertEquals(expected, actual)
+            val movies = listOf(movie)
+            val localModelList = listOf(movieRoom)
+            val expected = DataResponse.Success(movies)
+            coEvery { movieDao.getMovies() } returns localModelList
+
+            val actual = sut.getMovieList()
+
+            assertEquals(expected, actual)
         }
     }
 
-    @Ignore
     @Test
-    fun `GIVEN movies in memory cache invalid WHEN get movies THEN return empty list`() {
+    fun `GIVEN no movies in cache WHEN get movies THEN return movies`() {
         runBlocking {
-//            val expected = DataResponse.Failure
-//            every { timedCache.get() } returns emptyList()
-//
-//            val actual = sut.getMovieList()
-//
-//            assertEquals(expected, actual)
+            val expected = DataResponse.Failure
+            coEvery { movieDao.getMovies() } returns emptyList()
+
+            val actual = sut.getMovieList()
+
+            assertEquals(expected, actual)
         }
     }
 
+    @Test
+    fun `GIVEN movies in cache WHEN invalidate THEN cache is deleted`() {
+        runBlocking {
+            coEvery { movieDao.deleteMovies() } returns Unit
+
+            sut.invalidate()
+
+            coVerify { movieDao.deleteMovies() }
+        }
+    }
 
 }
