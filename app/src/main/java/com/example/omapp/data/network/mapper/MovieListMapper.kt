@@ -9,14 +9,17 @@ class MovieListMapper : Mapper<List<Movie>, MovieListDTO> {
         const val MOVIE_LIST_MAPPER_NAME = "MovieListMapper"
     }
 
-    override fun mapToDomainModel(dto: MovieListDTO) = dto.response.map {
+    override fun map(input: MovieListDTO) = input.response.map {
         Movie(
             id = it.id,
             name = it.name,
             description = it.description,
             definition = it.definition,
             year = it.year,
-            duration = it.duration
+            duration = it.duration,
+            imagesURL = it.attachments.map { attachment -> attachment.value },
+            genres = it.genreEntityList.map { genre -> genre.name },
+            isFavorite = false
         )
     }
 }

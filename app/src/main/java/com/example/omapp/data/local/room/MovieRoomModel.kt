@@ -2,7 +2,6 @@ package com.example.omapp.data.local.room
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "Movies",
@@ -15,5 +14,7 @@ data class MovieRoomModel(
     @ColumnInfo(name = "definition") val definition: String,
     @ColumnInfo(name = "year") val year: Int,
     @ColumnInfo(name = "duration") val duration: Long,
+    @ColumnInfo(name = "imagesURL") val imagesURL : List<String>,
+    @ColumnInfo(name = "genres") val genres : List<String>,
     @ColumnInfo(name = "isFavorite") val isFavorite: Boolean
 )

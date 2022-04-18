@@ -26,7 +26,7 @@ class MovieListMapperTest {
         val input = movieListDTO
         val expected = listOf(movie)
 
-        val actual = sut.mapToDomainModel(input)
+        val actual = sut.map(input)
 
         assertEquals(expected, actual)
     }
@@ -36,7 +36,7 @@ class MovieListMapperTest {
         val input = otherMovieListDTO
         val expected = listOf(otherMovie)
 
-        val actual = sut.mapToDomainModel(input)
+        val actual = sut.map(input)
 
         assertEquals(expected, actual)
     }

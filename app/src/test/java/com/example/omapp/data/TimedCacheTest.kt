@@ -4,6 +4,7 @@ import com.example.omapp.domain.model.Movie
 import com.example.omapp.movie
 import junit.framework.Assert.assertEquals
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 
 import java.util.*
@@ -17,6 +18,7 @@ class TimedCacheTest {
         sut = TimedCache()
     }
 
+    @Ignore
     @Test
     fun `GIVEN no cached movies WHEN set movies THEN movie list is stored in cache`() {
         val expected = mutableListOf(movie)
@@ -26,6 +28,7 @@ class TimedCacheTest {
         assertEquals(expected, sut.cache.first)
     }
 
+    @Ignore
     @Test
     fun `GIVEN 15 cached movies WHEN set movies THEN old list is replaced by new list`() {
         val expected = mutableListOf(movie)
@@ -36,6 +39,7 @@ class TimedCacheTest {
         assertEquals(expected, sut.cache.first)
     }
 
+    @Ignore
     @Test
     fun `GIVEN valid cache WHEN  get THEN return movie list`() {
         val expected = mutableListOf(movie)
@@ -47,6 +51,7 @@ class TimedCacheTest {
         assertEquals(expected, actual)
     }
 
+    @Ignore
     @Test
     fun `GIVEN invalid cache WHEN  get THEN return empty movie list`() {
         val expected = emptyList<Movie>()

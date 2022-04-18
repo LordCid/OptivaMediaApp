@@ -7,5 +7,8 @@ data class Movie(
     val description: String,
     val definition: String,
     val year: Int,
-    val duration: Long
+    val duration: Long,
+    val imagesURL : List<String>,
+    val genres : List<String>,
+    val isFavorite: Boolean
 )

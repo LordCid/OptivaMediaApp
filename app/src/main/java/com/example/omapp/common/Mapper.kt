@@ -1,5 +1,5 @@
 package com.example.omapp.common
 
-interface Mapper<T, DTO> {
-    fun mapToDomainModel(dto: DTO): T
+interface Mapper<T, R> {
+    fun map(input: R): T
 }

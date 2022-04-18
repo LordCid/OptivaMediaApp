@@ -18,7 +18,7 @@ class NetworkDataSourceImpl(
         }.fold(
             onSuccess = {
                 var resultList = listOf<Movie>()
-                it.body()?.apply { resultList = mapper.mapToDomainModel(this) }
+                it.body()?.apply { resultList = mapper.map(this) }
                 DataResponse.Success(resultList)
             },
             onFailure = { DataResponse.Failure }
