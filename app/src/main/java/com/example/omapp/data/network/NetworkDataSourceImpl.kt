@@ -7,7 +7,7 @@ import com.example.omapp.domain.model.Movie
 import retrofit2.awaitResponse
 
 class NetworkDataSourceImpl(
-    private val service: MovieAPI,
+    private val service: ApiService,
     private val mapper: Mapper<List<Movie>, MovieListDTO>
 ): NetworkDataSource {
 

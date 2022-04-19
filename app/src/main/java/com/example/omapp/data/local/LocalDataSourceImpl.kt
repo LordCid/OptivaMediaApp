@@ -8,21 +8,21 @@ import com.example.omapp.domain.model.Movie
 
 
 class LocalDataSourceImpl(
-    private val movieDao: MovieDao,
+    private val dao: MovieDao,
     private val movieToLocalMapper: Mapper<MovieRoomModel, Movie>,
     private val localToMovieMapper: Mapper<Movie, MovieRoomModel>
 ) : LocalDataSource {
 
 
     override suspend fun storeMovies(movies: List<Movie>) {
-        movieDao.insertMovies(
+        dao.insertMovies(
             movies.map { movieToLocalMapper.map(it) }
         )
 
     }
 
     override suspend fun getMovieList(): DataResponse<List<Movie>> {
-        movieDao.getMovies().let {
+        dao.getMovies().let {
             return if (it.isNotEmpty())
                 DataResponse.Success(
                     it.map {roomModel -> localToMovieMapper.map(roomModel) }
@@ -33,7 +33,7 @@ class LocalDataSourceImpl(
     }
 
     override suspend fun invalidate() {
-        movieDao.deleteMovies()
+        dao.deleteMovies()
     }
 
 }

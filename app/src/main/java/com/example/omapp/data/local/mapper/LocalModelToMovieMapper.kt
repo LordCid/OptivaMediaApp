@@ -5,6 +5,9 @@ import com.example.omapp.data.local.room.MovieRoomModel
 import com.example.omapp.domain.model.Movie
 
 class LocalModelToMovieMapper: Mapper<Movie, MovieRoomModel> {
+    companion object{
+        const val LOCAL_TO_MOVIE_MAPPER_NAME = "MovieListMapper"
+    }
     override fun map(input: MovieRoomModel) = Movie(
         id = input.id,
         name = input.name,
