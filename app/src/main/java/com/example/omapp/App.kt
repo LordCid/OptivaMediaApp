@@ -3,6 +3,8 @@ package com.example.omapp
 
 import android.app.Application
 import android.content.Context
+import com.example.omapp.di.appModule
+import com.example.omapp.di.movieListModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -20,6 +22,8 @@ class App : Application() {
             androidLogger(if (BuildConfig.DEBUG) Level.ERROR else Level.NONE)
             androidContext(context)
             modules(
+                appModule,
+                movieListModule
             )
         }
     }
