@@ -2,6 +2,8 @@ package com.example.omapp.presentation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +15,7 @@ import java.text.DateFormat
 class MovieAdapter(
     private val imagesLoader: ImagesLoader,
     private val dateFormat: DateFormat
-) : ListAdapter<Movie, MovieAdapter.MovieViewHolder>(TaskDiffCallBack()) {
+) : PagingDataAdapter<Movie, MovieAdapter.MovieViewHolder>(TaskDiffCallBack()) {
 
     var onCLick: (Long) -> Unit = {}
 
@@ -38,7 +40,8 @@ class MovieAdapter(
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        getItem(position)?.let { holder.bind(it) }
+
     }
 
     class MovieViewHolder(

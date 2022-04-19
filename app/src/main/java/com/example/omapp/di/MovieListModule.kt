@@ -18,6 +18,7 @@ import com.example.omapp.domain.GetMoviesUseCase
 import com.example.omapp.domain.GetMoviesUseCaseImpl
 import com.example.omapp.domain.Repository
 import com.example.omapp.domain.model.Movie
+import com.example.omapp.presentation.MovieListPagingHelper
 import com.example.omapp.presentation.MovieListViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
@@ -52,7 +53,8 @@ val movieListModule = module {
     // endregion
 
     // region UseCase
-    single<GetMoviesUseCase> { GetMoviesUseCaseImpl(repository = get()) }
+    single { MovieListPagingHelper(repository = get()) }
+    single<GetMoviesUseCase> { GetMoviesUseCaseImpl(pagingHelper = get()) }
 //    // endregion
 
     // region VieModel

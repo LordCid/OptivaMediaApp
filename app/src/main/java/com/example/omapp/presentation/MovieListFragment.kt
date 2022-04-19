@@ -2,17 +2,21 @@ package com.example.omapp.presentation
 
 import android.os.Bundle
 import android.text.format.DateFormat
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.omapp.common.ImagesLoader
 import com.example.omapp.common.presentation.BaseFragment
 import com.example.omapp.databinding.FragmentMovieListBinding
 import com.example.omapp.domain.model.Movie
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -23,7 +27,7 @@ class MovieListFragment : BaseFragment() {
 
     private val viewModel: MovieListViewModel by viewModel()
 
-    private val imagesLoader : ImagesLoader by inject()
+    private val imagesLoader: ImagesLoader by inject()
 
     private lateinit var movieAdapter: MovieAdapter
 
@@ -40,43 +44,45 @@ class MovieListFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         initUI()
         setViewModel()
-
     }
 
-    private fun initUI(){
+    private fun initUI() {
         movieAdapter = MovieAdapter(
             imagesLoader = imagesLoader,
             dateFormat = DateFormat.getDateFormat(activity)
         )
-        binding?.listView?.apply {
-            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            adapter = movieAdapter
+        binding?.apply {
+            with(listView) {
+                layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+                adapter = movieAdapter
+            }
+            swiperefresh.setOnRefreshListener { movieAdapter.refresh() }
         }
-        //            buttonFirst.setOnClickListener {
+
+        movieAdapter.addLoadStateListener(viewStateListener)
+
 //                findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-//            }
     }
 
-    private fun setViewModel(){
+    private fun setViewModel() {
         viewModel.viewState.observe(viewLifecycleOwner, ::updateUI)
-        viewModel.getMovies(0)
+        viewModel.getMovies()
     }
 
-    private fun updateUI(viewState: MovieListViewState) {
-        when(viewState) {
-            MovieListViewState.Error -> showError()
-            MovieListViewState.Loading -> showLoadingDialogFragment()
-            is MovieListViewState.ShowMovies -> showMovies(viewState.data)
+    private fun updateUI(dataList: PagingData<Movie>) {
+        lifecycleScope.launch {
+            movieAdapter.submitData(dataList)
         }
     }
 
-    private fun showMovies(data: List<Movie>) {
-        hideLoadingDialogFragment()
-//        binding?.apply {
-//            listView.isVisible = true
-//            errorView.isVisible = false
-//        }
-        movieAdapter.submitList(data)
+    private val viewStateListener: (CombinedLoadStates) -> Unit = {
+        when (it.refresh) {
+            is LoadState.Error -> showError()
+            is LoadState.NotLoading -> {
+                hideLoadingDialogFragment()
+            }
+            is LoadState.Loading -> showLoadingDialogFragment()
+        }
     }
 
     override fun onDestroyView() {
