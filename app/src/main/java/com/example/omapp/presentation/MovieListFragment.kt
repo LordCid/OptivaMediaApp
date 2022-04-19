@@ -6,15 +6,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.omapp.common.ImagesLoader
+import com.example.omapp.common.presentation.BaseFragment
 import com.example.omapp.databinding.FragmentMovieListBinding
+import com.example.omapp.domain.model.Movie
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
-class MovieListFragment : Fragment() {
+
+class MovieListFragment : BaseFragment() {
 
     private var binding: FragmentMovieListBinding? = null
 
@@ -36,11 +39,8 @@ class MovieListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
-        binding?.apply {
-//            buttonFirst.setOnClickListener {
-//                findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-//            }
-        }
+        setViewModel()
+
     }
 
     private fun initUI(){
@@ -48,10 +48,48 @@ class MovieListFragment : Fragment() {
             imagesLoader = imagesLoader,
             dateFormat = DateFormat.getDateFormat(activity)
         )
+        binding?.listView?.apply {
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            adapter = movieAdapter
+        }
+        //            buttonFirst.setOnClickListener {
+//                findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+//            }
+    }
+
+    private fun setViewModel(){
+        viewModel.viewState.observe(viewLifecycleOwner, ::updateUI)
+        viewModel.getMovies(0)
+    }
+
+    private fun updateUI(viewState: MovieListViewState) {
+        when(viewState) {
+            MovieListViewState.Error -> showError()
+            MovieListViewState.Loading -> showLoadingDialogFragment()
+            is MovieListViewState.ShowMovies -> showMovies(viewState.data)
+        }
+    }
+
+    private fun showMovies(data: List<Movie>) {
+        hideLoadingDialogFragment()
+//        binding?.apply {
+//            listView.isVisible = true
+//            errorView.isVisible = false
+//        }
+        movieAdapter.submitList(data)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
+    }
+
+
+    private fun showError() {
+        hideLoadingDialogFragment()
+        binding?.apply {
+            listView.isVisible = false
+            errorView.isVisible = true
+        }
     }
 }

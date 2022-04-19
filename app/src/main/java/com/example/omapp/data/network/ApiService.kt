@@ -15,7 +15,7 @@ import retrofit2.http.Query
 interface ApiService {
 
     @GET(GET_MOVIES_PATH)
-    suspend fun getMovies(@Query("from") from: Int): Call<MovieListDTO>
+    fun getMovies(@Query("from") from: Int): Call<MovieListDTO>
 
     companion object {
         fun create(): ApiService {
