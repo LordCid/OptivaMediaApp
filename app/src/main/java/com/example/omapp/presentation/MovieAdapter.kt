@@ -53,7 +53,8 @@ class MovieAdapter(
                 root.setOnClickListener { onCLick(item.id) }
 //                imagesLoader.loadImage(group.defaultImageUrl, group_container)
                 titleTv.text = item.name
-                dateTv.text = item.year.toString()
+                yearTv.text = item.year.toString()
+                durationTv.text = dateFormat.format(item.duration)
             }
         }
     }
