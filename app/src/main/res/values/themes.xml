@@ -22,4 +22,9 @@
     <style name="Theme.OMApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.OMApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">@color/trasparentGrey</item>
+    </style>
 </resources>
