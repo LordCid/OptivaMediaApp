@@ -1,4 +1,4 @@
-package com.example.omapp
+package com.example.omapp.presentation
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,7 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DiffUtil
+import com.example.omapp.R
 import com.example.omapp.databinding.FragmentMovieListBinding
+import com.example.omapp.domain.model.Movie
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -14,6 +18,8 @@ import com.example.omapp.databinding.FragmentMovieListBinding
 class MovieListFragment : Fragment() {
 
     private var binding: FragmentMovieListBinding? = null
+
+    private val viewModel: MovieListViewModel by viewModel()
 
 
 
@@ -28,11 +34,10 @@ class MovieListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding?.apply {
-            buttonFirst.setOnClickListener {
-                findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-            }
+//            buttonFirst.setOnClickListener {
+//                findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+//            }
         }
     }
 

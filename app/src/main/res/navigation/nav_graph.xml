@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.example.omapp.MovieListFragment"
+        android:name="com.example.omapp.presentation.MovieListFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_movie_list">
 
