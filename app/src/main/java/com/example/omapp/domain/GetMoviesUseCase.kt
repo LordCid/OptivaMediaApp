@@ -10,8 +10,7 @@ interface GetMoviesUseCase {
 }
 
 class GetMoviesUseCaseImpl(
-    private val moviePagingSource: PagingSource<Int, Movie>,
-    private val repository: Repository
+    private val moviePagingSource: PagingSource<Int, Movie>
 ) : GetMoviesUseCase {
     companion object{
         private const val TRX_INIT_LOAD_SIZE = 5
