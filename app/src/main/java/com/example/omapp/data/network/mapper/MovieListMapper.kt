@@ -1,5 +1,6 @@
 package com.example.omapp.data.network.mapper
 
+import com.example.omapp.IMAGES_BASE_PATH
 import com.example.omapp.common.Mapper
 import com.example.omapp.data.network.model.MovieListDTO
 import com.example.omapp.domain.model.Movie
@@ -17,7 +18,7 @@ class MovieListMapper : Mapper<List<Movie>, MovieListDTO> {
             definition = it.definition,
             year = it.year,
             duration = it.duration,
-            imagesURL = it.attachments.map { attachment -> attachment.value },
+            imagesURL = it.attachments.map { attachment -> "$IMAGES_BASE_PATH${attachment.value}" },
             genres = it.genreEntityList.map { genre -> genre.name },
             isFavorite = false
         )

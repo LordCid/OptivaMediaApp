@@ -48,8 +48,7 @@ class MovieListFragment : BaseFragment() {
 
     private fun initUI() {
         movieAdapter = MovieAdapter(
-            imagesLoader = imagesLoader,
-            dateFormat = DateFormat.getDateFormat(activity)
+            imagesLoader = imagesLoader
         )
         binding?.apply {
             with(listView) {
