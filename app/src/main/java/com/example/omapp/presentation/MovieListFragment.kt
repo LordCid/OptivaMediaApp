@@ -45,8 +45,7 @@ class MovieListFragment : BaseFragment() {
 
     private fun initUI(){
         movieAdapter = MovieAdapter(
-            imagesLoader = imagesLoader,
-            dateFormat = DateFormat.getDateFormat(activity)
+            imagesLoader = imagesLoader
         )
         binding?.listView?.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)

@@ -6,13 +6,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.omapp.common.ImagesLoader
+import com.example.omapp.common.formatDuration
 import com.example.omapp.databinding.ItemMovieBinding
 import com.example.omapp.domain.model.Movie
 import java.text.DateFormat
 
 class MovieAdapter(
     private val imagesLoader: ImagesLoader,
-    private val dateFormat: DateFormat
 ) : ListAdapter<Movie, MovieAdapter.MovieViewHolder>(TaskDiffCallBack()) {
 
     var onCLick: (Long) -> Unit = {}
@@ -34,7 +34,7 @@ class MovieAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val inflater: LayoutInflater = LayoutInflater.from(parent.context)
         val bindingView = ItemMovieBinding.inflate(inflater, parent, false)
-        return MovieViewHolder(bindingView, imagesLoader, dateFormat, onCLick)
+        return MovieViewHolder(bindingView, imagesLoader, onCLick)
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
@@ -44,7 +44,6 @@ class MovieAdapter(
     class MovieViewHolder(
         private val bindingView: ItemMovieBinding,
         private val imagesLoader: ImagesLoader,
-        private val dateFormat: DateFormat,
         private val onCLick: (Long) -> Unit
     ) : RecyclerView.ViewHolder(bindingView.root) {
 
@@ -54,7 +53,7 @@ class MovieAdapter(
                 imagesLoader.loadImage(item.imagesURL.first(), movieContainer)
                 titleTv.text = item.name
                 yearTv.text = item.year.toString()
-                durationTv.text = dateFormat.format(item.duration)
+                durationTv.text = item.duration.formatDuration()
             }
         }
     }

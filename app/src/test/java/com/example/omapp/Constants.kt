@@ -17,7 +17,7 @@ val movieListDTO = MovieListDTO(
             year = 2017,
             duration = 7691000,
             attachments = listOf(
-                AttachmentsDTO("url")
+                AttachmentsDTO("/url")
             ),
             genreEntityList =  listOf(
                 GenreEntityDTO(
@@ -63,7 +63,7 @@ val otherMovieListDTO = MovieListDTO(
             year = 2019,
             duration = 7691000,
             attachments = listOf(
-                AttachmentsDTO("other url")
+                AttachmentsDTO("/other url")
             ),
             genreEntityList = listOf(
                 GenreEntityDTO(
