@@ -9,6 +9,8 @@ import java.util.ArrayList
 class MovieListPagingSource(
     private val repository: Repository
 ) : PagingSource<Int, Movie>() {
+
+
     override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)

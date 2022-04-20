@@ -1,5 +1,6 @@
 package com.example.omapp.di
 
+import androidx.paging.PagingSource
 import com.example.omapp.common.Mapper
 import com.example.omapp.data.RepositoryImpl
 import com.example.omapp.data.local.LocalDataSource
@@ -14,9 +15,7 @@ import com.example.omapp.data.network.NetworkDataSourceImpl
 import com.example.omapp.data.network.mapper.MovieListMapper
 import com.example.omapp.data.network.mapper.MovieListMapper.Companion.MOVIE_LIST_MAPPER_NAME
 import com.example.omapp.data.network.model.MovieListDTO
-import com.example.omapp.domain.GetMoviesUseCase
-import com.example.omapp.domain.GetMoviesUseCaseImpl
-import com.example.omapp.domain.Repository
+import com.example.omapp.domain.*
 import com.example.omapp.domain.model.Movie
 import com.example.omapp.presentation.MovieListViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -52,8 +51,8 @@ val movieListModule = module {
     // endregion
 
     // region UseCase
-//    single { MovieListPagingHelper(repository = get()) }
-    single<GetMoviesUseCase> { GetMoviesUseCaseImpl(repository = get()) }
+    single<PagingSource<Int, Movie>> { MovieListPagingSource(repository = get()) }
+    single<GetMoviesUseCase> { GetMoviesUseCaseImpl(moviePagingSource = get(), repository = get()) }
 //    // endregion
 
     // region VieModel

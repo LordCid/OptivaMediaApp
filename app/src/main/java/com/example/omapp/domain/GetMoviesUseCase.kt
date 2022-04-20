@@ -6,10 +6,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 
 interface GetMoviesUseCase {
-    suspend operator fun invoke(scope: CoroutineScope): Flow<PagingData<Movie>>
+    suspend operator fun invoke(): Flow<PagingData<Movie>>
 }
 
 class GetMoviesUseCaseImpl(
+    private val moviePagingSource: PagingSource<Int, Movie>,
     private val repository: Repository
 ) : GetMoviesUseCase {
     companion object{
@@ -18,15 +19,15 @@ class GetMoviesUseCaseImpl(
         private const val TRX_PREFETCH_DISTANCE = 1
     }
 
-    override suspend fun invoke(scope: CoroutineScope) : Flow<PagingData<Movie>> {
+    override suspend fun invoke() : Flow<PagingData<Movie>> {
         return Pager(
             PagingConfig(
                 pageSize = TRX_PAGE_SIZE, prefetchDistance = TRX_PREFETCH_DISTANCE,
                 initialLoadSize = TRX_INIT_LOAD_SIZE, enablePlaceholders = true
             )
         ) {
-            MovieListPagingSource(repository)
-        }.flow.cachedIn(scope)
+            moviePagingSource
+        }.flow
     }
 
 

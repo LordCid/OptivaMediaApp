@@ -1,12 +1,21 @@
 package com.example.omapp.domain
 
+import androidx.paging.PagingData
+import androidx.paging.PagingSource
+import androidx.paging.filter
+import androidx.paging.flatMap
 import com.example.omapp.common.DataResponse
+import com.example.omapp.domain.model.Movie
 import com.example.omapp.movie
 import com.example.omapp.otherMovie
+import io.mockk.InternalPlatformDsl.toArray
 import io.mockk.coEvery
-import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.TestScope
 import org.junit.Before
 
 import org.junit.Assert.*
@@ -16,37 +25,43 @@ class GetMoviesUseCaseTest {
 
     private lateinit var sut : GetMoviesUseCase
     private val repository = mockk<Repository>()
+    private val movieListPagingSource = mockk<PagingSource<Int, Movie>>(relaxed = true)
+
+    @ExperimentalCoroutinesApi
+//    private val coroutineScope = TestScope()
 
     @Before
     fun setUp() {
-        sut = GetMoviesUseCaseImpl(repository)
+        sut = GetMoviesUseCaseImpl(movieListPagingSource, repository)
     }
 
+    @ExperimentalCoroutinesApi
     @Test
     fun `GIVEN movies from repository WHEN invoke THEN return Data Response`() {
         runBlocking {
-            val page = 1
-            val expected = DataResponse.Success(listOf(movie))
-            coEvery { repository.getMovieList(any()) } returns expected
+            val movies = listOf(movie)
+            val pagingData = PagingData.from(listOf(movies))
+            val expected = PagingSource.LoadResult.Page(data = movies, null, 2)
+            coEvery { movieListPagingSource.load(any()) } returns expected
 
-            val actual = sut.invoke(page)
+            val actual = sut.invoke().first()
 
-            coVerify { repository.getMovieList(page) }
-            assertEquals(expected, actual)
+            assertEquals(pagingData, actual)
         }
     }
 
+    @ExperimentalCoroutinesApi
     @Test
     fun `GIVEN OTHER movies from repository WHEN invoke THEN return Data Response`() {
         runBlocking {
-            val page = 2
-            val expected = DataResponse.Success(listOf(otherMovie))
-            coEvery { repository.getMovieList(any()) } returns expected
+            val movies = listOf(movie)
+            val pagingData = PagingData.from(listOf(movies))
+            val expected = PagingSource.LoadResult.Page(data = movies, null, 2)
+            coEvery { movieListPagingSource.load(any()) } returns expected
 
-            val actual = sut.invoke(page)
+            val actual = sut.invoke().first()
 
-            coVerify { repository.getMovieList(page) }
-            assertEquals(expected, actual)
+            assertEquals(pagingData, actual)
         }
     }
 }
