@@ -1,13 +1,12 @@
-package com.example.omapp.presentation
+package com.example.omapp.domain
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.omapp.common.DataResponse
-import com.example.omapp.domain.Repository
 import com.example.omapp.domain.model.Movie
 import java.util.ArrayList
 
-class MovieListPagingHelper(
+class MovieListPagingSource(
     private val repository: Repository
 ) : PagingSource<Int, Movie>() {
     override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {

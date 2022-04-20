@@ -1,10 +1,7 @@
 package com.example.omapp.domain
 
-import androidx.lifecycle.viewModelScope
 import androidx.paging.*
-import com.example.omapp.common.DataResponse
 import com.example.omapp.domain.model.Movie
-import com.example.omapp.presentation.MovieListPagingHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 
@@ -13,7 +10,7 @@ interface GetMoviesUseCase {
 }
 
 class GetMoviesUseCaseImpl(
-    private val pagingHelper: MovieListPagingHelper
+    private val repository: Repository
 ) : GetMoviesUseCase {
     companion object{
         private const val TRX_INIT_LOAD_SIZE = 5
@@ -28,7 +25,7 @@ class GetMoviesUseCaseImpl(
                 initialLoadSize = TRX_INIT_LOAD_SIZE, enablePlaceholders = true
             )
         ) {
-            pagingHelper
+            MovieListPagingSource(repository)
         }.flow.cachedIn(scope)
     }
 

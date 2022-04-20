@@ -32,10 +32,10 @@ class MovieListViewModel(
     val viewState : LiveData<PagingData<Movie>>
         get() = mutableViewState
 
-    fun getMovies() {
+    suspend fun getMovies(initialLoadListener: () -> Unit, scope: CoroutineScope) {
 //        mutableViewState.value = MovieListViewState.Loading
-        viewModelScope.launch {
-            getMoviesUseCase(this)
+//        viewModelScope.launch {
+            getMoviesUseCase(scope)
                 .catch {  }
                 .collect { mutableViewState.postValue(it) }
 //            val results = withContext(ioDispatcher) { getMoviesUseCase(page) }
@@ -43,7 +43,7 @@ class MovieListViewModel(
 //                foldSuccess = { mutableViewState.postValue(MovieListViewState.ShowMovies(it)) },
 //                foldFailure = { mutableViewState.postValue(MovieListViewState.Error) }
 //            )
-        }
+//        }
     }
 
 

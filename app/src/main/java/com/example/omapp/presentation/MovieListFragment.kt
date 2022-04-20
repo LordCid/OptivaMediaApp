@@ -65,7 +65,13 @@ class MovieListFragment : BaseFragment() {
 
     private fun setViewModel() {
         viewModel.viewState.observe(viewLifecycleOwner, ::updateUI)
-        viewModel.getMovies()
+        lifecycleScope.launch{
+            viewModel.getMovies(
+                initialLoadListener = { hideLoadingDialogFragment() },
+                scope = this
+            )
+        }
+
     }
 
     private fun updateUI(dataList: PagingData<Movie>) {
