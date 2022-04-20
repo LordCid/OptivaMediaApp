@@ -51,7 +51,7 @@ class MovieAdapter(
         fun bind(item: Movie) {
             bindingView.apply {
                 root.setOnClickListener { onCLick(item.id) }
-//                imagesLoader.loadImage(group.defaultImageUrl, group_container)
+                imagesLoader.loadImage(item.imagesURL.first(), movieContainer)
                 titleTv.text = item.name
                 yearTv.text = item.year.toString()
                 durationTv.text = dateFormat.format(item.duration)

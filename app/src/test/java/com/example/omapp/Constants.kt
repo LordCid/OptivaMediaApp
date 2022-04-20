@@ -36,7 +36,7 @@ val movie = Movie(
     definition = "HD",
     year = 2017,
     duration = 7691000,
-    imagesURL = listOf("url"),
+    imagesURL = listOf("https://smarttv.orangetv.orange.es/stv/api/rtv/v1/images/url"),
     genres = listOf("Drama"),
     isFavorite = false
 )
@@ -82,7 +82,7 @@ val otherMovie = Movie(
     definition = "HD",
     year = 2019,
     duration = 7691000,
-    imagesURL = listOf("other url"),
+    imagesURL = listOf("https://smarttv.orangetv.orange.es/stv/api/rtv/v1/images/other url"),
     genres = listOf("Action"),
     isFavorite = false
 )
