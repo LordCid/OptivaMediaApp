@@ -25,4 +25,5 @@ Sed enim dolor, pretium quis sem eget, dapibus laoreet enim. Vivamus et nibh non
     <string name="placeholder_year">2010</string>
     <string name="placeholder_duration">10 minutos</string>
     <string name="downloading_title_dialog">Donwloading movies...</string>
+    <string name="duration">Duration: %s</string>
 </resources>

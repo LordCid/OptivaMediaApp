@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.omapp.R
 import com.example.omapp.common.ImagesLoader
 import com.example.omapp.common.formatDuration
 import com.example.omapp.databinding.ItemMovieBinding
@@ -53,7 +54,7 @@ class MovieAdapter(
                 imagesLoader.loadImage(item.imagesURL.first(), movieContainer)
                 titleTv.text = item.name
                 yearTv.text = item.year.toString()
-                durationTv.text = item.duration.formatDuration()
+                durationTv.text = itemView.context.getString(R.string.duration, item.duration.formatDuration())
             }
         }
     }
