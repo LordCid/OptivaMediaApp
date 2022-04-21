@@ -52,7 +52,7 @@ val movieListModule = module {
 
     // region UseCase
     single<PagingSource<Int, Movie>> { MovieListPagingSource(repository = get()) }
-    single<GetMoviesUseCase> { GetMoviesUseCaseImpl(moviePagingSource = get(), repository = get()) }
+    single<GetMoviesUseCase> { GetMoviesUseCaseImpl(moviePagingSource = get()) }
 //    // endregion
 
     // region VieModel

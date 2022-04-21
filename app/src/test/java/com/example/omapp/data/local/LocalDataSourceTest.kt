@@ -1,5 +1,6 @@
 package com.example.omapp.data.local
 
+import com.example.omapp.ERROR_DATABASE_MESSAGE
 import com.example.omapp.common.DataResponse
 import com.example.omapp.data.local.mapper.LocalModelToMovieMapper
 import com.example.omapp.data.local.mapper.MovieToLocalModelMapper
@@ -58,7 +59,7 @@ class LocalDataSourceTest {
     @Test
     fun `GIVEN no movies in cache WHEN get movies THEN return movies`() {
         runBlocking {
-            val expected = DataResponse.Failure
+            val expected = DataResponse.Failure(ERROR_DATABASE_MESSAGE)
             coEvery { movieDao.getMovies() } returns emptyList()
 
             val actual = sut.getMovieList()

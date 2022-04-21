@@ -19,7 +19,7 @@ import org.junit.Assert.*
 import org.junit.Test
 import retrofit2.mock.Calls
 
-class NetworkDataSourceTest {
+class NetworkDataSourceGetMovieListTest {
 
     private lateinit var sut : NetworkDataSource
     private val service = mockk<ApiService>()
@@ -73,4 +73,5 @@ class NetworkDataSourceTest {
             assertTrue(actual.isFailure)
         }
     }
+
 }

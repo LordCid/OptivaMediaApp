@@ -8,7 +8,7 @@ import retrofit2.awaitResponse
 
 class NetworkDataSourceImpl(
     private val service: ApiService,
-    private val mapper: Mapper<List<Movie>, MovieListDTO>
+    private val mapper: Mapper<List<Movie>, MovieListDTO>,
 ): NetworkDataSource {
 
     override suspend fun getMovieList(page: Int): DataResponse<List<Movie>> {
@@ -21,7 +21,11 @@ class NetworkDataSourceImpl(
                 it.body()?.apply { resultList = mapper.map(this) }
                 DataResponse.Success(resultList)
             },
-            onFailure = { DataResponse.Failure }
+            onFailure = { DataResponse.Failure(it.message ?: "") }
         )
+    }
+
+    override suspend fun getDetail(id: String): DataResponse<Movie> {
+        TODO("Not yet implemented")
     }
 }

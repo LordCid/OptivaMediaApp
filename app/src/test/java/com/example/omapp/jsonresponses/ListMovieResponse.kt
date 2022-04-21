@@ -1,4 +1,4 @@
-package com.example.omapp
+package com.example.omapp.jsonresponses
 
 val listMovieResponse = """
     {

@@ -24,18 +24,14 @@ import org.junit.Test
 class GetMoviesUseCaseTest {
 
     private lateinit var sut : GetMoviesUseCase
-    private val repository = mockk<Repository>()
     private val movieListPagingSource = mockk<PagingSource<Int, Movie>>(relaxed = true)
 
-    @ExperimentalCoroutinesApi
-//    private val coroutineScope = TestScope()
 
     @Before
     fun setUp() {
-        sut = GetMoviesUseCaseImpl(movieListPagingSource, repository)
+        sut = GetMoviesUseCaseImpl(movieListPagingSource)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun `GIVEN movies from repository WHEN invoke THEN return Data Response`() {
         runBlocking {
@@ -50,7 +46,6 @@ class GetMoviesUseCaseTest {
         }
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun `GIVEN OTHER movies from repository WHEN invoke THEN return Data Response`() {
         runBlocking {
