@@ -12,5 +12,9 @@ const val IMAGES_BASE_PATH = "https://smarttv.orangetv.orange.es/stv/api/rtv/v1/
 const val DATABASE_VERSION = 1
 const val DATABASE_NAME = "interbus_database"
 
-const val ERROR_DATABASE_MESSAGE = "Error Data Base"
+
 const val EMPTY_STRING = ""
+
+//ERRORS
+const val ERROR_DATABASE_GENERIC_MESSAGE = "Error DataBase"
+const val ERROR_NETWORK_GENERIC_MESSAGE = "Error Network"

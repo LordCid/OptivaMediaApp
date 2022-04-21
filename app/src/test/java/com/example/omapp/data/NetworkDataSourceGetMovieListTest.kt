@@ -5,6 +5,7 @@ import com.example.omapp.data.network.mapper.MovieListMapper
 import com.example.omapp.data.network.ApiService
 import com.example.omapp.data.network.NetworkDataSource
 import com.example.omapp.data.network.NetworkDataSourceImpl
+import com.example.omapp.data.network.mapper.MovieDetailMapper
 import com.example.omapp.movie
 import com.example.omapp.movieListDTO
 import com.example.omapp.otherMovie
@@ -23,11 +24,12 @@ class NetworkDataSourceGetMovieListTest {
 
     private lateinit var sut : NetworkDataSource
     private val service = mockk<ApiService>()
-    private val mapper = MovieListMapper()
+    private val mapperList = MovieListMapper()
+    private val mapperDetail = MovieDetailMapper()
 
     @Before
     fun setUp() {
-        sut = NetworkDataSourceImpl(service, mapper)
+        sut = NetworkDataSourceImpl(service, mapperList, mapperDetail)
     }
 
     @Test

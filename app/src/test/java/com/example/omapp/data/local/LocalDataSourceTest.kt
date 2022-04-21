@@ -1,19 +1,16 @@
 package com.example.omapp.data.local
 
-import com.example.omapp.ERROR_DATABASE_MESSAGE
+import com.example.omapp.ERROR_DATABASE_GENERIC_MESSAGE
 import com.example.omapp.common.DataResponse
 import com.example.omapp.data.local.mapper.LocalModelToMovieMapper
 import com.example.omapp.data.local.mapper.MovieToLocalModelMapper
 import com.example.omapp.data.local.room.MovieDao
-import com.example.omapp.data.local.room.MovieRoomModel
 import com.example.omapp.movie
 import com.example.omapp.movieRoom
 import io.mockk.*
-import io.mockk.InternalPlatformDsl.toArray
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
-import org.junit.Ignore
 
 import org.junit.Test
 
@@ -59,7 +56,7 @@ class LocalDataSourceTest {
     @Test
     fun `GIVEN no movies in cache WHEN get movies THEN return movies`() {
         runBlocking {
-            val expected = DataResponse.Failure(ERROR_DATABASE_MESSAGE)
+            val expected = DataResponse.Failure(ERROR_DATABASE_GENERIC_MESSAGE)
             coEvery { movieDao.getMovies() } returns emptyList()
 
             val actual = sut.getMovieList()

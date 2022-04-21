@@ -1,6 +1,6 @@
 package com.example.omapp.data.local
 
-import com.example.omapp.ERROR_DATABASE_MESSAGE
+import com.example.omapp.ERROR_DATABASE_GENERIC_MESSAGE
 import com.example.omapp.common.DataResponse
 import com.example.omapp.common.Mapper
 import com.example.omapp.data.local.room.MovieDao
@@ -29,7 +29,7 @@ class LocalDataSourceImpl(
                     it.map {roomModel -> localToMovieMapper.map(roomModel) }
                 )
             else
-                DataResponse.Failure(ERROR_DATABASE_MESSAGE)
+                DataResponse.Failure(ERROR_DATABASE_GENERIC_MESSAGE)
         }
     }
 

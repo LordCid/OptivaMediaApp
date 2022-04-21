@@ -2,6 +2,7 @@ package com.example.omapp.data.network
 
 import com.example.omapp.*
 import com.example.omapp.common.DataResponse
+import com.example.omapp.data.network.mapper.MovieDetailMapper
 import com.example.omapp.data.network.mapper.MovieListMapper
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -17,11 +18,12 @@ class NetworkDataSourceGetDetailTest {
 
     private lateinit var sut : NetworkDataSource
     private val service = mockk<ApiService>()
-    private val mapper = MovieListMapper()
+    private val mapperList = MovieListMapper()
+    private val mapperDetail = MovieDetailMapper()
 
     @Before
     fun setUp() {
-        sut = NetworkDataSourceImpl(service, mapper)
+        sut = NetworkDataSourceImpl(service, mapperList, mapperDetail)
     }
     @Test
     fun `GIVEN response success with movie detail WHEN get movie detail THEN return correct data response success`() {

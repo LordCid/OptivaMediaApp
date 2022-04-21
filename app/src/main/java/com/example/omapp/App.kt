@@ -3,8 +3,7 @@ package com.example.omapp
 
 import android.app.Application
 import android.content.Context
-import com.example.omapp.di.appModule
-import com.example.omapp.di.movieListModule
+import com.example.omapp.di.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -23,6 +22,9 @@ class App : Application() {
             androidContext(context)
             modules(
                 appModule,
+                mapperModule,
+                dataModule,
+                domainModule,
                 movieListModule
             )
         }
