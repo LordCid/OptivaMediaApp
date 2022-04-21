@@ -39,5 +39,10 @@ class RepositoryImpl(
     }
 
 
+
+    override suspend fun getMovieDetail(id: String): DataResponse<Movie> {
+        TODO("Not yet implemented")
+    }
+
     override var currentDate: () -> Date = { Date() }
 }

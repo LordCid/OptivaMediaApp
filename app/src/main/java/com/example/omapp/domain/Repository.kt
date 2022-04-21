@@ -6,5 +6,6 @@ import java.util.*
 
 interface Repository {
     suspend fun getMovieList(page: Int) : DataResponse<List<Movie>>
+    suspend fun getMovieDetail(id: String) : DataResponse<Movie>
     var currentDate: () -> Date
 }

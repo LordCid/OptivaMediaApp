@@ -16,7 +16,7 @@ import org.junit.Before
 import org.junit.Test
 import java.util.*
 
-class RepositoryTest {
+class RepositoryGetMovieListTest {
 
     private lateinit var sut: Repository
     private val networkDataSource = mockk<NetworkDataSource>()
@@ -28,7 +28,7 @@ class RepositoryTest {
     }
 
     @Test
-    fun `GIVEN no cache success response from networkdatasource WHEN getmovies THEN get from network and store results`() {
+    fun `GIVEN no cache and success response from networkdatasource WHEN getmovies THEN get from network and store results`() {
         runBlocking {
             val page = 1
             val movies = listOf(movie)
