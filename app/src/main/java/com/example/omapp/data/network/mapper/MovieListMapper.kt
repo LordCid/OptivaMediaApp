@@ -2,15 +2,15 @@ package com.example.omapp.data.network.mapper
 
 import com.example.omapp.IMAGES_BASE_PATH
 import com.example.omapp.common.Mapper
-import com.example.omapp.data.network.model.MovieListDTO
+import com.example.omapp.data.network.model.MovieListResponseDTO
 import com.example.omapp.domain.model.Movie
 
-class MovieListMapper : Mapper<List<Movie>, MovieListDTO> {
+class MovieListMapper : Mapper<List<Movie>, MovieListResponseDTO> {
     companion object{
         const val MOVIE_LIST_MAPPER_NAME = "MovieListMapper"
     }
 
-    override fun map(input: MovieListDTO) = input.response.map {
+    override fun map(input: MovieListResponseDTO) = input.response.map {
         Movie(
             id = it.id,
             externalId = it.externalId,

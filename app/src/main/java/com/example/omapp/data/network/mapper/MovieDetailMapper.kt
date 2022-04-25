@@ -3,7 +3,6 @@ package com.example.omapp.data.network.mapper
 import com.example.omapp.IMAGES_BASE_PATH
 import com.example.omapp.common.Mapper
 import com.example.omapp.data.network.model.MovieDTO
-import com.example.omapp.data.network.model.MovieListDTO
 import com.example.omapp.domain.model.Movie
 
 class MovieDetailMapper : Mapper<Movie, MovieDTO> {

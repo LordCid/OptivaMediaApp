@@ -4,7 +4,7 @@ import com.example.omapp.data.local.room.MovieRoomModel
 import com.example.omapp.data.network.model.AttachmentsDTO
 import com.example.omapp.data.network.model.GenreEntityDTO
 import com.example.omapp.data.network.model.MovieDTO
-import com.example.omapp.data.network.model.MovieListDTO
+import com.example.omapp.data.network.model.MovieListResponseDTO
 import com.example.omapp.domain.model.Movie
 
 val movieDTO =  MovieDTO(
@@ -26,7 +26,7 @@ val movieDTO =  MovieDTO(
     )
 )
 
-val movieListDTO = MovieListDTO(
+val movieListDTO = MovieListResponseDTO(
     response = listOf(movieDTO)
 )
 
@@ -75,7 +75,7 @@ val otherMovieDTO = MovieDTO(
     )
 )
 
-val otherMovieListDTO = MovieListDTO(
+val otherMovieListDTO = MovieListResponseDTO(
     response = listOf(otherMovieDTO)
 )
 

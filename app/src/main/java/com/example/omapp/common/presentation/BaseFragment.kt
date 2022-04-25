@@ -24,7 +24,7 @@ abstract class BaseFragment : Fragment() {
         progressDialog.hide()
     }
 
-    protected fun showErrorMessage(message: String){
+    protected fun showErrorDialog(message: String){
         val errorDialog = ErrorDialogFragment()
         activity?.let {
             errorDialog.arguments?.putString(ERROR_MESSAGE_KEY, message)

@@ -3,9 +3,8 @@ package com.example.omapp.data.network
 import com.example.omapp.BASE_URL
 import com.example.omapp.GET_MOVIES_PATH
 import com.example.omapp.GET_MOVIE_PATH
-import com.example.omapp.MOVIE_COUNT
 import com.example.omapp.data.network.model.MovieDTO
-import com.example.omapp.data.network.model.MovieListDTO
+import com.example.omapp.data.network.model.MovieListResponseDTO
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -17,7 +16,7 @@ import retrofit2.http.Query
 interface ApiService {
 
     @GET(GET_MOVIES_PATH)
-    fun getMovies(@Query("from") from: Int): Call<MovieListDTO>
+    fun getMovies(@Query("from") from: Int): Call<MovieListResponseDTO>
 
     @GET(GET_MOVIE_PATH)
     fun getMovieDetail(@Query("external_id") id: String): Call<MovieDTO>

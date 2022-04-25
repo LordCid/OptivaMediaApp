@@ -4,13 +4,13 @@ import com.example.omapp.ERROR_NETWORK_GENERIC_MESSAGE
 import com.example.omapp.common.DataResponse
 import com.example.omapp.common.Mapper
 import com.example.omapp.data.network.model.MovieDTO
-import com.example.omapp.data.network.model.MovieListDTO
+import com.example.omapp.data.network.model.MovieListResponseDTO
 import com.example.omapp.domain.model.Movie
 import retrofit2.awaitResponse
 
 class NetworkDataSourceImpl(
     private val service: ApiService,
-    private val mapperList: Mapper<List<Movie>, MovieListDTO>,
+    private val mapperListResponse: Mapper<List<Movie>, MovieListResponseDTO>,
     private val mapperDetail: Mapper<Movie, MovieDTO>
 ): NetworkDataSource {
 
@@ -21,7 +21,7 @@ class NetworkDataSourceImpl(
         }.fold(
             onSuccess = {
                 var resultList = listOf<Movie>()
-                it.body()?.apply { resultList = mapperList.map(this) }
+                it.body()?.apply { resultList = mapperListResponse.map(this) }
                 DataResponse.Success(resultList)
             },
             onFailure = { DataResponse.Failure(it.message ?: ERROR_NETWORK_GENERIC_MESSAGE) }

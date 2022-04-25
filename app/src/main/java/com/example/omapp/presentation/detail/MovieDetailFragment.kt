@@ -52,11 +52,17 @@ class MovieDetailFragment : BaseFragment() {
 
     private fun updateUI(viewState: MovieDetailViewState) {
         when (viewState) {
-            is MovieDetailViewState.Error -> showErrorMessage(viewState.message)
+            is MovieDetailViewState.Error -> showError(viewState.message)
             MovieDetailViewState.Loading -> showLoadingDialogFragment()
             is MovieDetailViewState.ShowMovies -> showData(viewState.data)
         }
     }
+
+    private fun showError(message: String) {
+        hideLoadingDialogFragment()
+        showErrorDialog(message)
+    }
+
 
     private fun showData(data: Movie) {
         binding?.apply {
