@@ -16,13 +16,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-sealed class MovieListViewState {
-    object Loading : MovieListViewState()
-    class ShowMovies(val data: PagingData<Movie>) : MovieListViewState()
-    object Error : MovieListViewState()
-}
-
-
 class MovieListViewModel(
     private val getMoviesUseCase: GetMoviesUseCase,
     private val ioDispatcher: CoroutineDispatcher

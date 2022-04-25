@@ -14,14 +14,14 @@ import org.junit.Before
 import org.junit.Assert.*
 import org.junit.Test
 
-class GetMovieDetailTest {
+class GetMovieDetailUseCaseTest {
 
-    private lateinit var sut: GetMovieDetail
+    private lateinit var sut: GetMovieDetailUseCase
     private val repository = mockk<Repository>()
 
     @Before
     fun setUp() {
-        sut = GetMovieDetailImpl(repository)
+        sut = GetMovieDetailUseCaseImpl(repository)
     }
 
     @Test

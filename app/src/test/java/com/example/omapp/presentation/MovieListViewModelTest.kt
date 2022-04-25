@@ -19,13 +19,13 @@ class MovieListViewModelTest {
 
     private lateinit var sut: MovieListViewModel
 
-    private val observer = mockk<Observer<MovieListViewState>>(relaxed = true)
+
     private val getMoviesUseCase = mockk<GetMoviesUseCase>()
 
     @ExperimentalCoroutinesApi
     private val dispatcher = TestCoroutineDispatcher()
 
-    private val captor = mutableListOf<MovieListViewState>()
+//    private val captor = mutableListOf<MovieListViewState>()
 
     @Rule
     @JvmField
