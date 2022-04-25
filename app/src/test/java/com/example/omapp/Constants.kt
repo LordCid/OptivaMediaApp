@@ -51,7 +51,7 @@ val movieRoom = MovieRoomModel(
     definition = "HD",
     year = 2017,
     duration = 7691000,
-    imagesURL = listOf("url"),
+    imagesURL = listOf("https://smarttv.orangetv.orange.es/stv/api/rtv/v1/images/url"),
     genres = listOf("Drama"),
     isFavorite = false
 )
@@ -100,7 +100,7 @@ val annotherMovie = Movie(
     definition = "HD",
     year = 2019,
     duration = 7691000,
-    imagesURL = listOf("other url"),
+    imagesURL = listOf("https://smarttv.orangetv.orange.es/stv/api/rtv/v1/images/other url"),
     genres = listOf("Action"),
     isFavorite = true
 )
@@ -113,7 +113,7 @@ val annotherMovieRoom = MovieRoomModel(
     definition = "HD",
     year = 2019,
     duration = 7691000,
-    imagesURL = listOf("other url"),
+    imagesURL = listOf("https://smarttv.orangetv.orange.es/stv/api/rtv/v1/images/other url"),
     genres = listOf("Action"),
     isFavorite = true
 )
