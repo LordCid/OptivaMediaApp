@@ -56,7 +56,6 @@ class MovieListFragment : BaseFragment() {
                 layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
                 adapter = movieAdapter
             }
-//            swiperefresh.setOnRefreshListener { movieAdapter.refresh() }
         }
 
         movieAdapter.addLoadStateListener(viewStateListener)
