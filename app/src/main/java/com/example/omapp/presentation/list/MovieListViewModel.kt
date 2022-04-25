@@ -26,17 +26,9 @@ class MovieListViewModel(
         get() = mutableViewState
 
     suspend fun getMovies(initialLoadListener: () -> Unit, scope: CoroutineScope) {
-//        mutableViewState.value = MovieListViewState.Loading
-//        viewModelScope.launch {
-            getMoviesUseCase()
+            getMoviesUseCase(scope)
                 .catch {  }
                 .collect { mutableViewState.postValue(it) }
-//            val results = withContext(ioDispatcher) { getMoviesUseCase(page) }
-//            results.fold(
-//                foldSuccess = { mutableViewState.postValue(MovieListViewState.ShowMovies(it)) },
-//                foldFailure = { mutableViewState.postValue(MovieListViewState.Error) }
-//            )
-//        }
     }
 
 

@@ -65,6 +65,7 @@ class MovieDetailFragment : BaseFragment() {
 
 
     private fun showData(data: Movie) {
+        hideLoadingDialogFragment()
         binding?.apply {
             with(header) {
                 imagesLoader.loadImage(data.imagesURL.first(), movieContainer)
