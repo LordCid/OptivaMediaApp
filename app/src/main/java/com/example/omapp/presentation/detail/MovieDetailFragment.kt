@@ -1,44 +1,76 @@
 package com.example.omapp.presentation.detail
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import com.example.omapp.R
+import com.example.omapp.common.ImagesLoader
+import com.example.omapp.common.formatDuration
+import com.example.omapp.common.presentation.BaseFragment
 import com.example.omapp.databinding.FragmentMovieDetailBinding
-/**
- * A simple [Fragment] subclass as the second destination in the navigation.
- */
-class MovieDetailFragment : Fragment() {
+import com.example.omapp.domain.model.Movie
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-    private var _binding: FragmentMovieDetailBinding? = null
+class MovieDetailFragment : BaseFragment() {
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private var binding: FragmentMovieDetailBinding? = null
+
+    private val viewModel: MovieDetailViewModel by viewModel()
+
+    private val imagesLoader: ImagesLoader by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        _binding = FragmentMovieDetailBinding.inflate(inflater, container, false)
-        return binding.root
+        binding = FragmentMovieDetailBinding.inflate(inflater, container, false)
+        return binding?.root
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setViewModel()
+        setOnClicks()
 
-        binding.buttonSecond.setOnClickListener {
-            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
+//            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
+    }
+
+    private fun setViewModel() {
+        viewModel.viewState.observe(viewLifecycleOwner, ::updateUI)
+    }
+
+    private fun setOnClicks() {
+        binding?.apply {
+            favouriteButton.setOnClickListener { TODO()  }
+        }
+    }
+
+    private fun updateUI(viewState: MovieDetailViewState) {
+        when (viewState) {
+            is MovieDetailViewState.Error -> showErrorMessage(viewState.message)
+            MovieDetailViewState.Loading -> showLoadingDialogFragment()
+            is MovieDetailViewState.ShowMovies -> showData(viewState.data)
+        }
+    }
+
+    private fun showData(data: Movie) {
+        binding?.apply {
+            with(header) {
+                imagesLoader.loadImage(data.imagesURL.first(), movieContainer)
+                titleTv.text = data.name
+                yearTv.text = data.year.toString()
+                durationTv.text =
+                    context?.getString(R.string.duration, data.duration.formatDuration())
+            }
+            descriptionTv.text = data.description
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        binding = null
     }
 }

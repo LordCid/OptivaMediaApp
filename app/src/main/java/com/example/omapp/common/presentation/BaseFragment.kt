@@ -23,4 +23,12 @@ abstract class BaseFragment : Fragment() {
     protected fun hideLoadingDialogFragment() {
         progressDialog.hide()
     }
+
+    protected fun showErrorMessage(message: String){
+        val errorDialog = ErrorDialogFragment()
+        activity?.let {
+            errorDialog.arguments?.putString(ERROR_MESSAGE_KEY, message)
+            errorDialog.show(it.supportFragmentManager, "error")
+        }
+    }
 }
