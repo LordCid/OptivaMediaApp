@@ -1,4 +1,4 @@
-package com.example.omapp.common
+package com.example.omapp.common.presentation
 
 import android.view.View
 

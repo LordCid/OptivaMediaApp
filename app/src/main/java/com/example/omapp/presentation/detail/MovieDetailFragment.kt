@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
 import com.example.omapp.R
-import com.example.omapp.common.ImagesLoader
+import com.example.omapp.common.presentation.ImagesLoader
 import com.example.omapp.common.formatDuration
 import com.example.omapp.common.presentation.BaseFragment
 import com.example.omapp.databinding.FragmentMovieDetailBinding

@@ -1,7 +1,7 @@
 package com.example.omapp.di
 
-import com.example.omapp.common.GlideImplementation
-import com.example.omapp.common.ImagesLoader
+import com.example.omapp.common.presentation.GlideImplementation
+import com.example.omapp.common.presentation.ImagesLoader
 import com.example.omapp.data.local.room.AppDatabase
 import com.example.omapp.data.network.ApiService
 import kotlinx.coroutines.Dispatchers

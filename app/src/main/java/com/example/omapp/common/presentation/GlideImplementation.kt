@@ -1,4 +1,4 @@
-package com.example.omapp.common
+package com.example.omapp.common.presentation
 
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
@@ -17,7 +17,6 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
-import javax.inject.Inject
 
 class GlideImplementation : ImagesLoader {
 

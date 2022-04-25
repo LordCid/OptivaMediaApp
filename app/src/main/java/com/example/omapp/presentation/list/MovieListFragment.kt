@@ -12,7 +12,7 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.omapp.common.ImagesLoader
+import com.example.omapp.common.presentation.ImagesLoader
 import com.example.omapp.common.presentation.BaseFragment
 import com.example.omapp.databinding.FragmentMovieListBinding
 import com.example.omapp.domain.model.Movie
