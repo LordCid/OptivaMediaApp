@@ -30,7 +30,6 @@ class MovieDetailFragment : BaseFragment() {
     ): View? {
         binding = FragmentMovieDetailBinding.inflate(inflater, container, false)
         return binding?.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,7 +45,7 @@ class MovieDetailFragment : BaseFragment() {
 
     private fun setOnClicks() {
         binding?.apply {
-            favouriteButton.setOnClickListener { TODO()  }
+            favouriteButton.setOnClickListener { TODO() }
         }
     }
 
@@ -67,13 +66,10 @@ class MovieDetailFragment : BaseFragment() {
     private fun showData(data: Movie) {
         hideLoadingDialogFragment()
         binding?.apply {
-            with(header) {
-                imagesLoader.loadImage(data.imagesURL.first(), movieContainer)
-                titleTv.text = data.name
-                yearTv.text = data.year.toString()
-                durationTv.text =
-                    context?.getString(R.string.duration, data.duration.formatDuration())
-            }
+            imagesLoader.loadImage(data.imagesURL.first(), header)
+            titleTv.text = data.name
+            yearTv.text = data.year.toString()
+            durationTv.text = context?.getString(R.string.duration, data.duration.formatDuration())
             descriptionTv.text = data.description
         }
     }
