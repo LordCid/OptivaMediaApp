@@ -65,10 +65,9 @@ class MovieListFragment : BaseFragment() {
 
     private fun setOnClickListeners(){
         movieAdapter.onCLick = {
-//            val action = MovieListFragmentDirections.actionFirstFragmentToSecondFragment(
-//                id
-//            )
-//            findNavController()
+            findNavController().navigate(
+                MovieListFragmentDirections.actionFirstFragmentToSecondFragment(id = it)
+            )
         }
     }
 

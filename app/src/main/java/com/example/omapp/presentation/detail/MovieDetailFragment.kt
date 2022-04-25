@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.navArgs
 import com.example.omapp.R
 import com.example.omapp.common.ImagesLoader
 import com.example.omapp.common.formatDuration
@@ -21,6 +22,8 @@ class MovieDetailFragment : BaseFragment() {
 
     private val imagesLoader: ImagesLoader by inject()
 
+    private val args: MovieDetailFragmentArgs by navArgs()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,12 +37,11 @@ class MovieDetailFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setViewModel()
         setOnClicks()
-
-//            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
     }
 
     private fun setViewModel() {
         viewModel.viewState.observe(viewLifecycleOwner, ::updateUI)
+        viewModel.getMovieDetail(args.id)
     }
 
     private fun setOnClicks() {

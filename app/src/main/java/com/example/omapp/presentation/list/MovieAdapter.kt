@@ -50,7 +50,7 @@ class MovieAdapter(
 
         fun bind(item: Movie) {
             bindingView.apply {
-//                root.setOnClickListener { onCLick(item.id) }
+                root.setOnClickListener { onCLick(item.externalId) }
                 imagesLoader.loadImage(item.imagesURL.first(), movieContainer)
                 titleTv.text = item.name
                 yearTv.text = item.year.toString()
