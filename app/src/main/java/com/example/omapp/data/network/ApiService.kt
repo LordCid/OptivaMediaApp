@@ -4,6 +4,7 @@ import com.example.omapp.BASE_URL
 import com.example.omapp.GET_MOVIES_PATH
 import com.example.omapp.GET_MOVIE_PATH
 import com.example.omapp.data.network.model.MovieDTO
+import com.example.omapp.data.network.model.MovieDetailResponseDTO
 import com.example.omapp.data.network.model.MovieListResponseDTO
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -19,7 +20,7 @@ interface ApiService {
     fun getMovies(@Query("from") from: Int): Call<MovieListResponseDTO>
 
     @GET(GET_MOVIE_PATH)
-    fun getMovieDetail(@Query("external_id") id: String): Call<MovieDTO>
+    fun getMovieDetail(@Query("external_id") id: String): Call<MovieDetailResponseDTO>
 
     companion object {
         fun create(): ApiService {

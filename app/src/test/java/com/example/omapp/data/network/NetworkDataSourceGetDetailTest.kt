@@ -30,7 +30,7 @@ class NetworkDataSourceGetDetailTest {
         runBlocking {
             val id = "12ab"
             val expected = DataResponse.Success(movie)
-            coEvery { service.getMovieDetail(any()) } returns Calls.response(movieDTO)
+            coEvery { service.getMovieDetail(any()) } returns Calls.response(movieDetailDTO)
 
             val actual = sut.getDetail(id)
 
@@ -44,7 +44,7 @@ class NetworkDataSourceGetDetailTest {
         runBlocking {
             val id = "12ab"
             val expected = DataResponse.Success(otherMovie)
-            coEvery { service.getMovieDetail(any()) } returns Calls.response(otherMovieDTO)
+            coEvery { service.getMovieDetail(any()) } returns Calls.response(otherMovieDetailDTO)
 
             val actual = sut.getDetail(id)
 
