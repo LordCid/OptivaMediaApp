@@ -2,6 +2,7 @@ package com.example.omapp.presentation.detail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.example.omapp.ERROR_GENERIC_MESSAGE
 import com.example.omapp.common.DataResponse
 import com.example.omapp.domain.GetMovieDetailUseCase
 import com.example.omapp.movie
@@ -16,9 +17,12 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
-import org.junit.*
-
-import org.junit.Assert.*
+import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 
 class MovieDetailViewModelTest {
 
@@ -96,6 +100,23 @@ class MovieDetailViewModelTest {
         val id = "ab123"
         val expected = "error Message"
         coEvery { getMovieDetail.invoke(any()) } returns flow { emit(DataResponse.Failure(expected)) }
+
+        sut.viewState.observeForever(observer)
+        sut.getMovieDetail(id)
+
+
+        coVerify { getMovieDetail.invoke(id) }
+        verify { observer.onChanged(capture(captor)) }
+        assertTrue(captor[1] is MovieDetailViewState.Error)
+        val viewState = captor[1] as MovieDetailViewState.Error
+        assertEquals(expected, viewState.message)
+    }
+
+    @Test
+    fun `GIVEN any other exception WHEN get Movie Detail THEN Error View State`() {
+        val id = "ab123"
+        val expected = ERROR_GENERIC_MESSAGE
+        coEvery { getMovieDetail.invoke(any()) } returns flow { throw Throwable()}
 
         sut.viewState.observeForever(observer)
         sut.getMovieDetail(id)

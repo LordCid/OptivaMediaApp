@@ -4,9 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.omapp.ERROR_GENERIC_MESSAGE
 import com.example.omapp.common.DataResponse
 import com.example.omapp.domain.GetMovieDetailUseCase
 import com.example.omapp.domain.model.Movie
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 
@@ -28,6 +30,11 @@ class MovieDetailViewModel(
         mutableViewState.value = MovieDetailViewState.Loading
         viewModelScope.launch {
             getMovieDetailUseCase(id)
+                .catch {
+                    mutableViewState.postValue(
+                        MovieDetailViewState.Error(it.message ?: ERROR_GENERIC_MESSAGE)
+                    )
+                }
                 .collect { evaluateResponse(it) }
 
         }

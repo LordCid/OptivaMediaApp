@@ -15,6 +15,7 @@ const val DATABASE_NAME = "interbus_database"
 
 const val EMPTY_STRING = ""
 
-//ERRORS
+//ERRORS MESSAGES
 const val ERROR_DATABASE_GENERIC_MESSAGE = "Error DataBase"
 const val ERROR_NETWORK_GENERIC_MESSAGE = "Error Network"
+const val ERROR_GENERIC_MESSAGE = "Error"
