@@ -10,6 +10,7 @@ class MovieToLocalModelMapper : Mapper<MovieRoomModel, Movie> {
     }
     override fun map(input: Movie) = MovieRoomModel(
         id = input.id,
+        externalId = input.externalId,
         name = input.name,
         description = input.description,
         definition = input.definition,

@@ -19,6 +19,7 @@ import kotlinx.coroutines.test.TestScope
 import org.junit.Before
 
 import org.junit.Assert.*
+import org.junit.Ignore
 import org.junit.Test
 
 class GetMoviesUseCaseTest {
@@ -32,6 +33,7 @@ class GetMoviesUseCaseTest {
         sut = GetMoviesUseCaseImpl(movieListPagingSource)
     }
 
+    @Ignore
     @Test
     fun `GIVEN movies from repository WHEN invoke THEN return Data Response`() {
         runBlocking {
@@ -46,6 +48,7 @@ class GetMoviesUseCaseTest {
         }
     }
 
+    @Ignore
     @Test
     fun `GIVEN OTHER movies from repository WHEN invoke THEN return Data Response`() {
         runBlocking {

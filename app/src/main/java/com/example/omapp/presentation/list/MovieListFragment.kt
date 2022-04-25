@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.PagingData
@@ -43,6 +44,7 @@ class MovieListFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         initUI()
         setViewModel()
+        setOnClickListeners()
     }
 
     private fun initUI() {
@@ -59,7 +61,15 @@ class MovieListFragment : BaseFragment() {
 
         movieAdapter.addLoadStateListener(viewStateListener)
 
-//                findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+    }
+
+    private fun setOnClickListeners(){
+        movieAdapter.onCLick = {
+//            val action = MovieListFragmentDirections.actionFirstFragmentToSecondFragment(
+//                id
+//            )
+//            findNavController()
+        }
     }
 
     private fun setViewModel() {

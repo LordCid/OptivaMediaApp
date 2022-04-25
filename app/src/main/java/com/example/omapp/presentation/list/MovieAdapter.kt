@@ -15,7 +15,7 @@ class MovieAdapter(
     private val imagesLoader: ImagesLoader
 ) : PagingDataAdapter<Movie, MovieAdapter.MovieViewHolder>(TaskDiffCallBack()) {
 
-    var onCLick: (Long) -> Unit = {}
+    var onCLick: (String) -> Unit = {}
 
     class TaskDiffCallBack : DiffUtil.ItemCallback<Movie>() {
 
@@ -45,12 +45,12 @@ class MovieAdapter(
     class MovieViewHolder(
         private val bindingView: ItemMovieBinding,
         private val imagesLoader: ImagesLoader,
-        private val onCLick: (Long) -> Unit
+        private val onCLick: (String) -> Unit
     ) : RecyclerView.ViewHolder(bindingView.root) {
 
         fun bind(item: Movie) {
             bindingView.apply {
-                root.setOnClickListener { onCLick(item.id) }
+//                root.setOnClickListener { onCLick(item.id) }
                 imagesLoader.loadImage(item.imagesURL.first(), movieContainer)
                 titleTv.text = item.name
                 yearTv.text = item.year.toString()

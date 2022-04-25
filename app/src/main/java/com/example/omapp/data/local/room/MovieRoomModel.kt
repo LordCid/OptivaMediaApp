@@ -9,6 +9,7 @@ import androidx.room.Entity
 )
 data class MovieRoomModel(
     @ColumnInfo(name = "id") val id: Long,
+    @ColumnInfo(name = "externalId") val externalId: String,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "description") val description: String,
     @ColumnInfo(name = "definition") val definition: String,

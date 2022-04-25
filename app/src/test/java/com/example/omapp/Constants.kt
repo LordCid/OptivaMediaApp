@@ -9,6 +9,7 @@ import com.example.omapp.domain.model.Movie
 
 val movieDTO =  MovieDTO(
     id = 12345,
+    externalId = "12abc",
     name = "movie name",
     description = "description",
     definition = "HD",
@@ -31,6 +32,7 @@ val movieListDTO = MovieListDTO(
 
 val movie = Movie(
     id = 12345,
+    externalId = "12abc",
     name = "movie name",
     description = "description",
     definition = "HD",
@@ -43,6 +45,7 @@ val movie = Movie(
 
 val movieRoom = MovieRoomModel(
     id = 12345,
+    externalId = "12abc",
     name = "movie name",
     description = "description",
     definition = "HD",
@@ -55,6 +58,7 @@ val movieRoom = MovieRoomModel(
 
 val otherMovieDTO = MovieDTO(
     id = 786543,
+    externalId = "34dfg",
     name = "Other movie name",
     description = "other description",
     definition = "HD",
@@ -77,6 +81,7 @@ val otherMovieListDTO = MovieListDTO(
 
 val otherMovie = Movie(
     id = 786543,
+    externalId = "34dfg",
     name = "Other movie name",
     description = "other description",
     definition = "HD",
@@ -89,6 +94,7 @@ val otherMovie = Movie(
 
 val annotherMovie = Movie(
     id = 786543,
+    externalId = "34dfg",
     name = "Other movie name",
     description = "other description",
     definition = "HD",
@@ -101,6 +107,7 @@ val annotherMovie = Movie(
 
 val annotherMovieRoom = MovieRoomModel(
     id = 786543,
+    externalId = "34dfg",
     name = "Other movie name",
     description = "other description",
     definition = "HD",

@@ -13,6 +13,7 @@ class MovieListMapper : Mapper<List<Movie>, MovieListDTO> {
     override fun map(input: MovieListDTO) = input.response.map {
         Movie(
             id = it.id,
+            externalId = it.externalId,
             name = it.name,
             description = it.description,
             definition = it.definition,
