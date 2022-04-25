@@ -1,4 +1,4 @@
-package com.example.omapp.presentation
+package com.example.omapp.presentation.list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

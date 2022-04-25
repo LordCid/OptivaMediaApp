@@ -1,4 +1,4 @@
-package com.example.omapp.presentation
+package com.example.omapp.presentation.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

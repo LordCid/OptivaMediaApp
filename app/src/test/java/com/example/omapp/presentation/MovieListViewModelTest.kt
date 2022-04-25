@@ -1,10 +1,8 @@
 package com.example.omapp.presentation
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
-import com.example.omapp.common.DataResponse
 import com.example.omapp.domain.GetMoviesUseCase
-import com.example.omapp.movie
+import com.example.omapp.presentation.list.MovieListViewModel
 import io.mockk.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -12,8 +10,6 @@ import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.*
-
-import org.junit.Assert.*
 
 class MovieListViewModelTest {
 
