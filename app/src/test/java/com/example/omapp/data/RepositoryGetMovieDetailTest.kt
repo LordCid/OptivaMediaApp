@@ -5,6 +5,7 @@ import com.example.omapp.data.local.LocalDataSource
 import com.example.omapp.data.network.NetworkDataSource
 import com.example.omapp.domain.Repository
 import com.example.omapp.movie
+import com.example.omapp.otherMovie
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -38,4 +39,19 @@ class RepositoryGetMovieDetailTest {
             assertEquals(expected, actual)
         }
     }
+
+    @Test
+    fun `GIVEN OTHER Success response from networkData source WHEN getMovieList THEN return result`() {
+        runBlocking {
+            val id = "er456"
+            val expected = DataResponse.Success(otherMovie)
+            coEvery { networkDataSource.getDetail(any()) } returns expected
+
+            val actual = sut.getMovieDetail(id)
+
+            coVerify { networkDataSource.getDetail(id) }
+            assertEquals(expected, actual)
+        }
+    }
+
 }
