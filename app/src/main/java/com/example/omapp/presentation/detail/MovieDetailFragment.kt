@@ -54,6 +54,13 @@ class MovieDetailFragment : BaseFragment() {
             is MovieDetailViewState.Error -> showError(viewState.message)
             MovieDetailViewState.Loading -> showLoadingDialogFragment()
             is MovieDetailViewState.ShowMovies -> showData(viewState.data)
+            is MovieDetailViewState.FavoriteUpdate -> updateFavoriteButton(viewState.isFavorite)
+        }
+    }
+
+    private fun updateFavoriteButton(isFavorite: Boolean) {
+        binding?.apply {
+            favouriteButton.setImageResource(getFavoriteIcon(isFavorite))
         }
     }
 
