@@ -2,10 +2,12 @@ package com.example.omapp.data
 
 import com.example.omapp.common.DataResponse
 import com.example.omapp.data.local.LocalDataSource
+import com.example.omapp.data.local.room.MovieFavoriteRoomModel
 import com.example.omapp.domain.Repository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import junit.framework.Assert
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 
@@ -49,6 +51,32 @@ class RepositorySetFavoriteTest {
 
             coVerify { localDataSource.setFavoriteMovie(id, isFavorite) }
             assertEquals(expected, actual)
+        }
+    }
+
+    @Test
+    fun `GIVEN movie id and local datasource check is true WHEN check favorite THEN succed is return with favorite true`() {
+        runBlocking {
+            val id = 1234L
+            coEvery { localDataSource.checkIfFavorite(any()) } returns true
+
+            val actual = sut.checkIfFavorite(id = id)
+
+            coVerify { localDataSource.checkIfFavorite(id) }
+            assertTrue(actual)
+        }
+    }
+
+    @Test
+    fun `GIVEN movie id and local datasource check is false  WHEN check favorite THEN succed is return with favorite false`() {
+        runBlocking {
+            val id = 1234L
+            coEvery { localDataSource.checkIfFavorite(any()) } returns false
+
+            val actual = sut.checkIfFavorite(id = id)
+
+            coVerify { localDataSource.checkIfFavorite(id) }
+            assertFalse(actual)
         }
     }
 }

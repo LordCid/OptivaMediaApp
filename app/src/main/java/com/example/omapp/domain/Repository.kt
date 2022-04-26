@@ -8,5 +8,6 @@ interface Repository {
     suspend fun getMovieList(page: Int) : DataResponse<List<Movie>>
     suspend fun getMovieDetail(id: String) : DataResponse<Movie>
     suspend fun setFavorite(id: Long, isFavorite: Boolean) : DataResponse<Boolean>
+    suspend fun checkIfFavorite(id: Long) : Boolean
     var currentDate: () -> Date
 }

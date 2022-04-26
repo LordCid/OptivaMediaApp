@@ -44,6 +44,7 @@ class RepositoryImpl(
     override suspend fun setFavorite(id: Long, isFavorite: Boolean) =
         localDataSource.setFavoriteMovie(id, isFavorite)
 
+    override suspend fun checkIfFavorite(id: Long) = localDataSource.checkIfFavorite(id)
 
     override var currentDate: () -> Date = { Date() }
 }
