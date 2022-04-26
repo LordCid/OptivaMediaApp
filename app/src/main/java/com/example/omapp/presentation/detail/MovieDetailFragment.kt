@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
 import com.example.omapp.R
-import com.example.omapp.common.presentation.ImagesLoader
 import com.example.omapp.common.formatDuration
 import com.example.omapp.common.presentation.BaseFragment
+import com.example.omapp.common.presentation.ImagesLoader
 import com.example.omapp.databinding.FragmentMovieDetailBinding
 import com.example.omapp.domain.model.Movie
 import org.koin.android.ext.android.inject
@@ -71,7 +71,12 @@ class MovieDetailFragment : BaseFragment() {
             yearTv.text = data.year.toString()
             durationTv.text = context?.getString(R.string.duration, data.duration.formatDuration())
             descriptionTv.text = data.description
+            favouriteButton.setImageResource(getFavoriteIcon(data.isFavorite))
         }
+    }
+
+    private fun getFavoriteIcon(isFavorite: Boolean): Int{
+        return if(isFavorite) R.drawable.ic_favorite_black else R.drawable.ic_favorite_border_black
     }
 
     override fun onDestroyView() {

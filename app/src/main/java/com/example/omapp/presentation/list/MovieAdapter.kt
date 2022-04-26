@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.omapp.R
 import com.example.omapp.common.presentation.ImagesLoader
 import com.example.omapp.common.formatDuration
+import com.example.omapp.common.getFavoriteIcon
 import com.example.omapp.databinding.ItemMovieBinding
 import com.example.omapp.domain.model.Movie
 
@@ -55,7 +56,11 @@ class MovieAdapter(
                 titleTv.text = item.name
                 yearTv.text = item.year.toString()
                 durationTv.text = itemView.context.getString(R.string.duration, item.duration.formatDuration())
+                favouriteButton.setImageResource(getFavoriteIcon(item.isFavorite))
             }
+        }
+        private fun getFavoriteIcon(isFavorite: Boolean): Int{
+            return if(isFavorite) R.drawable.ic_favorite_black else R.drawable.ic_favorite_border_black
         }
     }
 }
