@@ -12,7 +12,6 @@ import io.mockk.*
 import junit.framework.Assert.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
-import org.junit.Ignore
 
 import org.junit.Test
 
@@ -121,20 +120,31 @@ class LocalDataSourceTest {
         }
     }
 
-    @Ignore
     @Test
-    fun `GIVEN movie id and persisted movie favorite WHEN check favorite THEN succed is return with favorite true`() {
+    fun `GIVEN movie id and favorite persited WHEN check favorite THEN succed is return with favorite true`() {
         runBlocking {
-//            val id = 1234L
-//            val movieRoomFavorite = MovieFavoriteRoomModel(id, true)
-//            coEvery { movieDao.checkIfFavorite(any()) } returns movieRoomFavorite
-//            val expected = DataResponse.Success(true)
-//
-//            val actual = sut.checkIfFavorite(id = id)
-//
-//            assertEquals(expected, actual)
+            val id = 1234L
+            val movieRoomFavorite = MovieFavoriteRoomModel(id)
+            coEvery { movieDao.checkIfFavorite(any()) } returns movieRoomFavorite
+            val expected = true
+
+            val actual = sut.checkIfFavorite(id = id)
+
+            assertEquals(expected, actual)
         }
     }
 
+    @Test
+    fun `GIVEN movie id and no favorite persited WHEN check favorite THEN succed is return with favorite false`() {
+        runBlocking {
+            val id = 1234L
+            coEvery { movieDao.checkIfFavorite(any()) } returns null
+            val expected = false
+
+            val actual = sut.checkIfFavorite(id = id)
+
+            assertEquals(expected, actual)
+        }
+    }
 
 }

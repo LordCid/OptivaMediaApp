@@ -58,10 +58,6 @@ class LocalDataSourceImpl(
     }
 
 
-    override suspend fun checkIfFavorite(id: Long): DataResponse<Boolean> {
-        TODO()
-//        val res = dao.checkIfFavorite(id)
-//        return DataResponse.Success(res.isFavorite)
-    }
+    override suspend fun checkIfFavorite(id: Long) = dao.checkIfFavorite(id) != null
 
 }

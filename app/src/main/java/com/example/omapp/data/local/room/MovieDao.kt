@@ -20,6 +20,6 @@ interface MovieDao {
     @Delete
     suspend fun deleteFavorite(movieFavorite: MovieFavoriteRoomModel) : Int
 
-    @Query("SELECT * FROM Favorites WHERE id > :id")
-    suspend fun checkIfFavorite(id: Long) : MovieFavoriteRoomModel
+    @Query("SELECT * FROM Favorites WHERE id > :id LIMIT 1")
+    suspend fun checkIfFavorite(id: Long): MovieFavoriteRoomModel?
 }
