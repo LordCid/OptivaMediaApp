@@ -35,18 +35,11 @@ class MovieDetailFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setViewModel()
-        setOnClicks()
     }
 
     private fun setViewModel() {
         viewModel.viewState.observe(viewLifecycleOwner, ::updateUI)
         viewModel.getMovieDetail(args.id)
-    }
-
-    private fun setOnClicks() {
-        binding?.apply {
-            favouriteButton.setOnClickListener { TODO() }
-        }
     }
 
     private fun updateUI(viewState: MovieDetailViewState) {
@@ -78,11 +71,18 @@ class MovieDetailFragment : BaseFragment() {
             yearTv.text = data.year.toString()
             durationTv.text = context?.getString(R.string.duration, data.duration.formatDuration())
             descriptionTv.text = data.description
-            favouriteButton.setImageResource(getFavoriteIcon(data.isFavorite))
+            setFavoriteButton(data.isFavorite)
         }
     }
 
-    private fun getFavoriteIcon(isFavorite: Boolean): Int{
+    private fun setFavoriteButton(isFavorite: Boolean) {
+        binding?.favouriteButton?.apply {
+            setImageResource(getFavoriteIcon(isFavorite))
+            setOnClickListener { viewModel.setFavorite() }
+        }
+    }
+
+    private fun getFavoriteIcon(isFavorite: Boolean): Int {
         return if(isFavorite) R.drawable.ic_favorite_black else R.drawable.ic_favorite_border_black
     }
 

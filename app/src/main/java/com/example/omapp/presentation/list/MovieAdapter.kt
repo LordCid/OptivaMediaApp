@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.omapp.R
 import com.example.omapp.common.presentation.ImagesLoader
 import com.example.omapp.common.formatDuration
-import com.example.omapp.common.getFavoriteIcon
 import com.example.omapp.databinding.ItemMovieBinding
 import com.example.omapp.domain.model.Movie
 

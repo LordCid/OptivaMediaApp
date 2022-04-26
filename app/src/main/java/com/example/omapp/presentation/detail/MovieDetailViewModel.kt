@@ -29,6 +29,9 @@ class MovieDetailViewModel(
     val viewState : LiveData<MovieDetailViewState>
         get() = mutableViewState
 
+    private var movieId : Long = 0
+    private var favoriteStatus = false
+
     fun getMovieDetail(id: String){
         mutableViewState.value = MovieDetailViewState.Loading
         viewModelScope.launch {
@@ -43,11 +46,14 @@ class MovieDetailViewModel(
         }
     }
 
-    fun setFavorite(id: Long, isFavorite: Boolean) {
+    fun setFavorite() {
         viewModelScope.launch {
-            when(val result = setFavoriteMovieUseCase(id, isFavorite)) {
+            when(val result = setFavoriteMovieUseCase(movieId, favoriteStatus.not())) {
                 is DataResponse.Failure -> mutableViewState.postValue(MovieDetailViewState.Error(result.message))
-                is DataResponse.Success ->  mutableViewState.postValue(MovieDetailViewState.FavoriteUpdate(result.data))
+                is DataResponse.Success -> result.data.let{
+                    favoriteStatus = it
+                    mutableViewState.postValue(MovieDetailViewState.FavoriteUpdate(it))
+                }
             }
         }
     }
@@ -56,8 +62,12 @@ class MovieDetailViewModel(
         when (it) {
             is DataResponse.Failure ->
                 mutableViewState.postValue(MovieDetailViewState.Error(it.message))
-            is DataResponse.Success ->
-                mutableViewState.postValue(MovieDetailViewState.ShowMovies(it.data))
+            is DataResponse.Success -> with(it.data) {
+                movieId = id
+                favoriteStatus = isFavorite
+                mutableViewState.postValue(MovieDetailViewState.ShowMovies(this))
+            }
+
         }
     }
 }
