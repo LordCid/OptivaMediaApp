@@ -53,30 +53,4 @@ class RepositorySetFavoriteTest {
             assertEquals(expected, actual)
         }
     }
-
-    @Test
-    fun `GIVEN movie id and local datasource check is true WHEN check favorite THEN succed is return with favorite true`() {
-        runBlocking {
-            val id = 1234L
-            coEvery { localDataSource.checkIfFavorite(any()) } returns true
-
-            val actual = sut.checkIfFavorite(id = id)
-
-            coVerify { localDataSource.checkIfFavorite(id) }
-            assertTrue(actual)
-        }
-    }
-
-    @Test
-    fun `GIVEN movie id and local datasource check is false  WHEN check favorite THEN succed is return with favorite false`() {
-        runBlocking {
-            val id = 1234L
-            coEvery { localDataSource.checkIfFavorite(any()) } returns false
-
-            val actual = sut.checkIfFavorite(id = id)
-
-            coVerify { localDataSource.checkIfFavorite(id) }
-            assertFalse(actual)
-        }
-    }
 }

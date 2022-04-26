@@ -16,6 +16,5 @@ data class MovieRoomModel(
     @ColumnInfo(name = "year") val year: Int,
     @ColumnInfo(name = "duration") val duration: Long,
     @ColumnInfo(name = "imagesURL") val imagesURL : List<String>,
-    @ColumnInfo(name = "genres") val genres : List<String>,
-    @ColumnInfo(name = "isFavorite") val isFavorite: Boolean
+    @ColumnInfo(name = "genres") val genres : List<String>
 )

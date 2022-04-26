@@ -8,6 +8,7 @@ import com.example.omapp.domain.model.Movie
 import java.util.*
 
 const val CACHE_LIFE_TIME = 30000L
+
 class RepositoryImpl(
     private val networkDataSource: NetworkDataSource,
     private val localDataSource: LocalDataSource
@@ -39,12 +40,22 @@ class RepositoryImpl(
     }
 
 
-    override suspend fun getMovieDetail(id: String) = networkDataSource.getDetail(id)
+    override suspend fun getMovieDetail(id: String) =
+        when (val result = networkDataSource.getDetail(id)) {
+            is DataResponse.Success -> {
+                result.data.let {
+                    if (localDataSource.checkIfFavorite(it.id)) {
+                        DataResponse.Success(it.copy(isFavorite = true))
+                    } else DataResponse.Success(it.copy(isFavorite = false))
+                }
+            }
+            else -> result
+        }
+
 
     override suspend fun setFavorite(id: Long, isFavorite: Boolean) =
         localDataSource.setFavoriteMovie(id, isFavorite)
 
-    override suspend fun checkIfFavorite(id: Long) = localDataSource.checkIfFavorite(id)
 
     override var currentDate: () -> Date = { Date() }
 }

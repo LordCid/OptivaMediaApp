@@ -182,4 +182,21 @@ class MovieDetailViewModelTest {
         assertEquals(expected, viewState.message)
     }
 
+    @Test
+    fun `GIVEN check favorite WHEN set Favorite movie THEN Error View State`() {
+        val id = 1234L
+        val isFavorite = false
+        val expected = "Error message"
+        coEvery { setFavoriteMovieUseCase.invoke(any(), any()) } returns DataResponse.Failure(expected)
+
+        sut.viewState.observeForever(observer)
+        sut.setFavorite(id, isFavorite)
+
+        coVerify { setFavoriteMovieUseCase.invoke(id, isFavorite) }
+        verify { observer.onChanged(capture(captor)) }
+        assertTrue(captor[0] is MovieDetailViewState.Error)
+        val viewState = captor[0] as MovieDetailViewState.Error
+        assertEquals(expected, viewState.message)
+    }
+
 }

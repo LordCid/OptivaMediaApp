@@ -17,7 +17,6 @@ class LocalModelToMovieMapper: Mapper<Movie, MovieRoomModel> {
         year = input.year,
         duration = input.duration,
         imagesURL = input.imagesURL,
-        genres = input.genres,
-        isFavorite = input.isFavorite
+        genres = input.genres
     )
 }

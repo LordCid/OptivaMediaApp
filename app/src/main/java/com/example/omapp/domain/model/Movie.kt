@@ -11,5 +11,5 @@ data class Movie(
     val duration: Long,
     val imagesURL : List<String>,
     val genres : List<String>,
-    val isFavorite: Boolean
+    val isFavorite : Boolean = false
 )

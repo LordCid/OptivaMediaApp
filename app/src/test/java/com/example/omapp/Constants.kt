@@ -40,8 +40,7 @@ val movie = Movie(
     year = 2017,
     duration = 7691000,
     imagesURL = listOf("https://smarttv.orangetv.orange.es/stv/api/rtv/v1/images/url"),
-    genres = listOf("Drama"),
-    isFavorite = false
+    genres = listOf("Drama")
 )
 
 val movieRoom = MovieRoomModel(
@@ -53,8 +52,7 @@ val movieRoom = MovieRoomModel(
     year = 2017,
     duration = 7691000,
     imagesURL = listOf("https://smarttv.orangetv.orange.es/stv/api/rtv/v1/images/url"),
-    genres = listOf("Drama"),
-    isFavorite = false
+    genres = listOf("Drama")
 )
 
 val otherMovieDTO = MovieDTO(
@@ -93,8 +91,7 @@ val otherMovie = Movie(
     year = 2019,
     duration = 7691000,
     imagesURL = listOf("https://smarttv.orangetv.orange.es/stv/api/rtv/v1/images/other url"),
-    genres = listOf("Action"),
-    isFavorite = false
+    genres = listOf("Action")
 )
 
 val annotherMovie = Movie(
@@ -106,8 +103,7 @@ val annotherMovie = Movie(
     year = 2019,
     duration = 7691000,
     imagesURL = listOf("https://smarttv.orangetv.orange.es/stv/api/rtv/v1/images/other url"),
-    genres = listOf("Action"),
-    isFavorite = true
+    genres = listOf("Action")
 )
 
 val annotherMovieRoom = MovieRoomModel(
@@ -119,6 +115,5 @@ val annotherMovieRoom = MovieRoomModel(
     year = 2019,
     duration = 7691000,
     imagesURL = listOf("https://smarttv.orangetv.orange.es/stv/api/rtv/v1/images/other url"),
-    genres = listOf("Action"),
-    isFavorite = true
+    genres = listOf("Action")
 )

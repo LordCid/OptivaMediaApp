@@ -11,7 +11,6 @@ import com.example.omapp.domain.SetFavoriteMovieUseCase
 import com.example.omapp.domain.model.Movie
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 sealed class MovieDetailViewState {
