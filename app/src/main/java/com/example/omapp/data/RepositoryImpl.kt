@@ -46,7 +46,9 @@ class RepositoryImpl(
                 result.data.let {
                     if (localDataSource.checkIfFavorite(it.id)) {
                         DataResponse.Success(it.copy(isFavorite = true))
-                    } else DataResponse.Success(it.copy(isFavorite = false))
+                    } else {
+                        DataResponse.Success(it.copy(isFavorite = false))
+                    }
                 }
             }
             else -> result

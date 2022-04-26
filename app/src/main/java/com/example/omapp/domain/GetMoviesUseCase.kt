@@ -15,7 +15,7 @@ class GetMoviesUseCaseImpl(
     companion object{
         private const val TRX_INIT_LOAD_SIZE = 5
         private const val TRX_PAGE_SIZE = 5
-        private const val TRX_PREFETCH_DISTANCE = 1
+        private const val TRX_PREFETCH_DISTANCE = 0
     }
 
     override suspend fun invoke(scope: CoroutineScope) : Flow<PagingData<Movie>> {

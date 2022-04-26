@@ -9,8 +9,10 @@ import com.example.omapp.common.DataResponse
 import com.example.omapp.domain.GetMovieDetailUseCase
 import com.example.omapp.domain.SetFavoriteMovieUseCase
 import com.example.omapp.domain.model.Movie
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 sealed class MovieDetailViewState {
@@ -22,7 +24,8 @@ sealed class MovieDetailViewState {
 
 class MovieDetailViewModel(
     private val getMovieDetailUseCase: GetMovieDetailUseCase,
-    private val setFavoriteMovieUseCase: SetFavoriteMovieUseCase
+    private val setFavoriteMovieUseCase: SetFavoriteMovieUseCase,
+    private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val mutableViewState = MutableLiveData<MovieDetailViewState>()
@@ -48,7 +51,10 @@ class MovieDetailViewModel(
 
     fun setFavorite() {
         viewModelScope.launch {
-            when(val result = setFavoriteMovieUseCase(movieId, favoriteStatus.not())) {
+            val result = withContext(ioDispatcher) {
+                setFavoriteMovieUseCase(movieId, favoriteStatus.not())
+            }
+            when(result) {
                 is DataResponse.Failure -> mutableViewState.postValue(MovieDetailViewState.Error(result.message))
                 is DataResponse.Success -> result.data.let{
                     favoriteStatus = it

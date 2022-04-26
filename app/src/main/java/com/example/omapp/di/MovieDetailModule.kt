@@ -6,6 +6,6 @@ import org.koin.dsl.module
 
 val movieDetailModule = module {
     viewModel {
-        MovieDetailViewModel(getMovieDetailUseCase = get(), setFavoriteMovieUseCase = get())
+        MovieDetailViewModel(getMovieDetailUseCase = get(), setFavoriteMovieUseCase = get(), ioDispatcher = get())
     }
 }

@@ -17,8 +17,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MovieListViewModel(
-    private val getMoviesUseCase: GetMoviesUseCase,
-    private val ioDispatcher: CoroutineDispatcher
+    private val getMoviesUseCase: GetMoviesUseCase
 ): ViewModel() {
 
     private val mutableViewState = MutableLiveData<PagingData<Movie>>()
