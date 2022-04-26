@@ -41,9 +41,8 @@ class RepositoryImpl(
 
     override suspend fun getMovieDetail(id: String) = networkDataSource.getDetail(id)
 
-    override suspend fun setFavorite(id: Long, isFavorite: Boolean): Boolean {
-        TODO()
-    }
+    override suspend fun setFavorite(id: Long, isFavorite: Boolean) =
+        localDataSource.setFavoriteMovie(id, isFavorite)
 
 
     override var currentDate: () -> Date = { Date() }

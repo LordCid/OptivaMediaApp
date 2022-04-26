@@ -4,6 +4,7 @@ import com.example.omapp.data.local.LocalDataSource
 import com.example.omapp.data.local.room.MovieFavoriteRoomModel
 import com.example.omapp.data.network.NetworkDataSource
 import com.example.omapp.domain.Repository
+import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
@@ -23,26 +24,30 @@ class RepositorySetFavoriteTest {
     }
 
     @Test
-    fun `GIVEN movie id WHEN set favorite true THEN then value is passed to LocalDataSource`() {
+    fun `GIVEN movie id WHEN set favorite true THEN value is passed to LocalDataSource`() {
         runBlocking {
             val id = 1234L
             val isFavorite = true
+            coEvery { localDataSource.setFavoriteMovie(any(), any()) } returns true
 
-            sut.setFavorite(id = id, isFavorite = isFavorite)
+            val actual = sut.setFavorite(id = id, isFavorite = isFavorite)
 
             coVerify { localDataSource.setFavoriteMovie(id, isFavorite) }
+            assertTrue(actual)
         }
     }
 
     @Test
-    fun `GIVEN movie id WHEN set favorite false THEN then value is passed to LocalDataSource`() {
+    fun `GIVEN movie id WHEN set favorite false THEN value is passed to LocalDataSource`() {
         runBlocking {
             val id = 1234L
             val isFavorite = false
+            coEvery { localDataSource.setFavoriteMovie(any(), any()) } returns true
 
-            sut.setFavorite(id = id, isFavorite = isFavorite)
+            val actual = sut.setFavorite(id = id, isFavorite = isFavorite)
 
             coVerify { localDataSource.setFavoriteMovie(id, isFavorite) }
+            assertTrue(actual)
         }
     }
 }
