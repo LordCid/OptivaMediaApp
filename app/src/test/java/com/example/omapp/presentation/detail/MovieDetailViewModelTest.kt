@@ -5,6 +5,7 @@ import androidx.lifecycle.Observer
 import com.example.omapp.ERROR_GENERIC_MESSAGE
 import com.example.omapp.common.DataResponse
 import com.example.omapp.domain.GetMovieDetailUseCase
+import com.example.omapp.domain.SetFavoriteMovieUseCase
 import com.example.omapp.movie
 import com.example.omapp.otherMovie
 import io.mockk.coEvery
@@ -29,6 +30,7 @@ class MovieDetailViewModelTest {
     private lateinit var sut: MovieDetailViewModel
     private val observer = mockk<Observer<MovieDetailViewState>>(relaxed = true)
     private val getMovieDetail = mockk<GetMovieDetailUseCase>()
+    private val setFavoriteMovieUseCase = mockk<SetFavoriteMovieUseCase>()
 
     private val captor = mutableListOf<MovieDetailViewState>()
 
@@ -40,7 +42,7 @@ class MovieDetailViewModelTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(UnconfinedTestDispatcher())
-        sut = MovieDetailViewModel(getMovieDetail)
+        sut = MovieDetailViewModel(getMovieDetail, setFavoriteMovieUseCase)
     }
 
     @ExperimentalCoroutinesApi
@@ -127,6 +129,22 @@ class MovieDetailViewModelTest {
         assertTrue(captor[1] is MovieDetailViewState.Error)
         val viewState = captor[1] as MovieDetailViewState.Error
         assertEquals(expected, viewState.message)
+    }
+
+    @Test
+    fun `GIVEN set Favorite succeds WHEN set Favorite movie true THEN Set Favorite Update View State`() {
+        val id = 1234L
+        val isFavorite = true
+        coEvery { setFavoriteMovieUseCase.invoke(any(), any()) } returns true
+
+        sut.viewState.observeForever(observer)
+        sut.setFavorite(id, isFavorite)
+
+        coVerify { setFavoriteMovieUseCase.invoke(id, isFavorite) }
+        verify { observer.onChanged(capture(captor)) }
+        assertTrue(captor[0] is MovieDetailViewState.FavoriteUpdate)
+        val viewState = captor[0] as MovieDetailViewState.FavoriteUpdate
+        assertEquals(isFavorite, viewState.isFavorite)
     }
 
 }

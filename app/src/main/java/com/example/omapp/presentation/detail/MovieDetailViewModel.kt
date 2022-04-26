@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.omapp.ERROR_GENERIC_MESSAGE
 import com.example.omapp.common.DataResponse
 import com.example.omapp.domain.GetMovieDetailUseCase
+import com.example.omapp.domain.SetFavoriteMovieUseCase
 import com.example.omapp.domain.model.Movie
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
@@ -16,10 +17,12 @@ sealed class MovieDetailViewState {
     object Loading : MovieDetailViewState()
     class ShowMovies(val data: Movie) : MovieDetailViewState()
     class Error(val message: String) : MovieDetailViewState()
+    class FavoriteUpdate(val isFavorite: Boolean) : MovieDetailViewState()
 }
 
 class MovieDetailViewModel(
-    private val getMovieDetailUseCase: GetMovieDetailUseCase
+    private val getMovieDetailUseCase: GetMovieDetailUseCase,
+    private val setFavoriteMovieUseCase: SetFavoriteMovieUseCase
 ) : ViewModel() {
 
     private val mutableViewState = MutableLiveData<MovieDetailViewState>()
@@ -37,6 +40,13 @@ class MovieDetailViewModel(
                 }
                 .collect { evaluateResponse(it) }
 
+        }
+    }
+
+    fun setFavorite(id: Long, isFavorite: Boolean) {
+        viewModelScope.launch {
+            val result = setFavoriteMovieUseCase(id, isFavorite)
+            mutableViewState.postValue(MovieDetailViewState.FavoriteUpdate(result))
         }
     }
 
