@@ -5,10 +5,11 @@ import com.example.omapp.common.DataResponse
 import com.example.omapp.data.local.mapper.LocalModelToMovieMapper
 import com.example.omapp.data.local.mapper.MovieToLocalModelMapper
 import com.example.omapp.data.local.room.MovieDao
+import com.example.omapp.data.local.room.MovieFavoriteRoomModel
 import com.example.omapp.movie
 import com.example.omapp.movieRoom
 import io.mockk.*
-import junit.framework.Assert.assertEquals
+import junit.framework.Assert.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 
@@ -17,7 +18,7 @@ import org.junit.Test
 class LocalDataSourceTest {
 
     private lateinit var sut: LocalDataSource
-    private val movieDao = mockk<MovieDao>()
+    private val movieDao = mockk<MovieDao>(relaxed = true)
     private val movieToLocalMapper = MovieToLocalModelMapper()
     private val localToMovieMapper = LocalModelToMovieMapper()
 
@@ -31,9 +32,9 @@ class LocalDataSourceTest {
         runBlocking {
             val movies = listOf(movie)
             val localModelList = listOf(movieRoom)
-            coEvery { movieDao.insertMovies(any())} returns emptyList()
+            coEvery { movieDao.insertMovies(any()) } returns emptyList()
 
-           sut.storeMovies(movies)
+            sut.storeMovies(movies)
 
             coVerify { movieDao.insertMovies(localModelList) }
         }
@@ -68,11 +69,51 @@ class LocalDataSourceTest {
     @Test
     fun `GIVEN movies in cache WHEN invalidate THEN cache is deleted`() {
         runBlocking {
-            coEvery { movieDao.deleteMovies() } returns Unit
 
             sut.invalidate()
 
             coVerify { movieDao.deleteMovies() }
+        }
+    }
+
+    @Test
+    fun `GIVEN movie id and local persistance succeds WHEN set favorite true THEN value is persisted and returns true`() {
+        runBlocking {
+            val id = 1234L
+            val movieRoomFavorite = MovieFavoriteRoomModel(id, true)
+            coEvery { movieDao.setFavorite(any()) } returns 1L
+
+            val actual = sut.setFavoriteMovie(id = id, isFavorite = true)
+
+            coVerify { movieDao.setFavorite(movieRoomFavorite) }
+            assertTrue(actual)
+        }
+    }
+
+
+    @Test
+    fun `GIVEN movie id and local persistance succeds WHEN set favorite false THEN value is persisted and returns true`() {
+        runBlocking {
+            val id = 1234L
+            val movieRoomFavorite = MovieFavoriteRoomModel(id, false)
+            coEvery { movieDao.setFavorite(any()) } returns 1L
+
+            val actual = sut.setFavoriteMovie(id = id, isFavorite = false)
+
+            coVerify { movieDao.setFavorite(movieRoomFavorite) }
+            assertTrue(actual)
+        }
+    }
+
+    @Test
+    fun `GIVEN movie id and local persistance fails WHEN set favorite THEN returns false`() {
+        runBlocking {
+            val id = 1234L
+            coEvery { movieDao.setFavorite(any()) } returns 0L
+
+            val actual = sut.setFavoriteMovie(id = id, isFavorite = true)
+
+            assertFalse(actual)
         }
     }
 

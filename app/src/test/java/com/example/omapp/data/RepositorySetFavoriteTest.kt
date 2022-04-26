@@ -1,0 +1,48 @@
+package com.example.omapp.data
+
+import com.example.omapp.data.local.LocalDataSource
+import com.example.omapp.data.local.room.MovieFavoriteRoomModel
+import com.example.omapp.data.network.NetworkDataSource
+import com.example.omapp.domain.Repository
+import io.mockk.coVerify
+import io.mockk.mockk
+import kotlinx.coroutines.runBlocking
+import org.junit.Before
+
+import org.junit.Assert.*
+import org.junit.Test
+
+class RepositorySetFavoriteTest {
+
+    private lateinit var sut: Repository
+    private val localDataSource = mockk<LocalDataSource>()
+
+    @Before
+    fun setUp() {
+        sut = RepositoryImpl(mockk(), localDataSource)
+    }
+
+    @Test
+    fun `GIVEN movie id WHEN set favorite true THEN then value is passed to LocalDataSource`() {
+        runBlocking {
+            val id = 1234L
+            val isFavorite = true
+
+            sut.setFavorite(id = id, isFavorite = isFavorite)
+
+            coVerify { localDataSource.setFavoriteMovie(id, isFavorite) }
+        }
+    }
+
+    @Test
+    fun `GIVEN movie id WHEN set favorite false THEN then value is passed to LocalDataSource`() {
+        runBlocking {
+            val id = 1234L
+            val isFavorite = false
+
+            sut.setFavorite(id = id, isFavorite = isFavorite)
+
+            coVerify { localDataSource.setFavoriteMovie(id, isFavorite) }
+        }
+    }
+}

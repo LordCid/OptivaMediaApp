@@ -7,7 +7,7 @@ import androidx.room.Entity
     tableName = "Favorites",
     primaryKeys = ["id"],
 )
-data class MovieFavorite(
+data class MovieFavoriteRoomModel(
     @ColumnInfo(name = "id") val id: Long,
     @ColumnInfo(name = "isFavorite") val isFavorite: Boolean
 )

@@ -27,6 +27,8 @@ class GetMoviesUseCaseTest {
     private lateinit var sut : GetMoviesUseCase
     private val movieListPagingSource = mockk<PagingSource<Int, Movie>>(relaxed = true)
 
+    @ExperimentalCoroutinesApi
+    private val scope = TestScope()
 
     @Before
     fun setUp() {
@@ -42,7 +44,7 @@ class GetMoviesUseCaseTest {
             val expected = PagingSource.LoadResult.Page(data = movies, null, 2)
             coEvery { movieListPagingSource.load(any()) } returns expected
 
-            val actual = sut.invoke().first()
+            val actual = sut.invoke(scope).first()
 
             assertEquals(pagingData, actual)
         }
@@ -57,7 +59,7 @@ class GetMoviesUseCaseTest {
             val expected = PagingSource.LoadResult.Page(data = movies, null, 2)
             coEvery { movieListPagingSource.load(any()) } returns expected
 
-            val actual = sut.invoke().first()
+            val actual = sut.invoke(scope).first()
 
             assertEquals(pagingData, actual)
         }

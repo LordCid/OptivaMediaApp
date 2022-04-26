@@ -4,10 +4,12 @@ import com.example.omapp.ERROR_DATABASE_GENERIC_MESSAGE
 import com.example.omapp.common.DataResponse
 import com.example.omapp.common.Mapper
 import com.example.omapp.data.local.room.MovieDao
+import com.example.omapp.data.local.room.MovieFavoriteRoomModel
 import com.example.omapp.data.local.room.MovieRoomModel
 import com.example.omapp.domain.model.Movie
 
 
+const val NO_AFECTED_ROWS = 0
 class LocalDataSourceImpl(
     private val dao: MovieDao,
     private val movieToLocalMapper: Mapper<MovieRoomModel, Movie>,
@@ -35,6 +37,10 @@ class LocalDataSourceImpl(
 
     override suspend fun invalidate() {
         dao.deleteMovies()
+    }
+
+    override suspend fun setFavoriteMovie(id: Long, isFavorite: Boolean) : Boolean {
+        return dao.setFavorite(MovieFavoriteRoomModel(id, isFavorite)) > NO_AFECTED_ROWS
     }
 
 }
