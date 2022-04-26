@@ -14,6 +14,12 @@ interface MovieDao {
     @Query("DELETE FROM Movies")
     suspend fun deleteMovies()
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun setFavorite(movieFavorite: MovieFavoriteRoomModel) : Long
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertFavorite(movieFavorite: MovieFavoriteRoomModel) : Long
+
+    @Delete
+    suspend fun deleteFavorite(movieFavorite: MovieFavoriteRoomModel) : Int
+
+    @Query("SELECT * FROM Favorites WHERE id > :id")
+    suspend fun checkIfFavorite(id: Long) : MovieFavoriteRoomModel
 }

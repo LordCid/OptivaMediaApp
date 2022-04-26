@@ -12,6 +12,7 @@ import io.mockk.*
 import junit.framework.Assert.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
+import org.junit.Ignore
 
 import org.junit.Test
 
@@ -80,13 +81,13 @@ class LocalDataSourceTest {
     fun `GIVEN movie id and persitance succeds WHEN set favorite true THEN value is persisted and returns true`() {
         runBlocking {
             val id = 1234L
-            val movieRoomFavorite = MovieFavoriteRoomModel(id, true)
-            coEvery { movieDao.setFavorite(any()) } returns 1L
+            val movieRoomFavorite = MovieFavoriteRoomModel(id)
+            coEvery { movieDao.insertFavorite(any()) } returns 1L
             val expected = DataResponse.Success(true)
 
             val actual = sut.setFavoriteMovie(id = id, isFavorite = true)
 
-            coVerify { movieDao.setFavorite(movieRoomFavorite) }
+            coVerify { movieDao.insertFavorite(movieRoomFavorite) }
             assertEquals(expected, actual)
         }
     }
@@ -96,13 +97,13 @@ class LocalDataSourceTest {
     fun `GIVEN movie id and persitance succeds WHEN set favorite false THEN value is persisted and returns isFavorite false`() {
         runBlocking {
             val id = 1234L
-            val movieRoomFavorite = MovieFavoriteRoomModel(id, false)
-            coEvery { movieDao.setFavorite(any()) } returns 1L
+            val movieRoomFavorite = MovieFavoriteRoomModel(id)
+            coEvery { movieDao.deleteFavorite(any()) } returns 1
             val expected = DataResponse.Success(false)
 
             val actual = sut.setFavoriteMovie(id = id, isFavorite = false)
 
-            coVerify { movieDao.setFavorite(movieRoomFavorite) }
+            coVerify { movieDao.deleteFavorite(movieRoomFavorite) }
             assertEquals(expected, actual)
         }
     }
@@ -111,7 +112,7 @@ class LocalDataSourceTest {
     fun `GIVEN movie id and persitance fails WHEN set favorite false THEN value is persisted and returns isFavorite false`() {
         runBlocking {
             val id = 1234L
-            coEvery { movieDao.setFavorite(any()) } returns 0L
+            coEvery { movieDao.insertFavorite(any()) } returns 0L
             val expected = DataResponse.Failure(ERROR_DATABASE_GENERIC_MESSAGE)
 
             val actual = sut.setFavoriteMovie(id = id, isFavorite = false)
@@ -119,5 +120,21 @@ class LocalDataSourceTest {
             assertEquals(expected, actual)
         }
     }
+
+    @Ignore
+    @Test
+    fun `GIVEN movie id and persisted movie favorite WHEN check favorite THEN succed is return with favorite true`() {
+        runBlocking {
+//            val id = 1234L
+//            val movieRoomFavorite = MovieFavoriteRoomModel(id, true)
+//            coEvery { movieDao.checkIfFavorite(any()) } returns movieRoomFavorite
+//            val expected = DataResponse.Success(true)
+//
+//            val actual = sut.checkIfFavorite(id = id)
+//
+//            assertEquals(expected, actual)
+        }
+    }
+
 
 }

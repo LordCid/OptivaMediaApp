@@ -10,6 +10,7 @@ import com.example.omapp.domain.model.Movie
 
 
 const val NO_AFECTED_ROWS = 0
+
 class LocalDataSourceImpl(
     private val dao: MovieDao,
     private val movieToLocalMapper: Mapper<MovieRoomModel, Movie>,
@@ -28,7 +29,7 @@ class LocalDataSourceImpl(
         dao.getMovies().let {
             return if (it.isNotEmpty())
                 DataResponse.Success(
-                    it.map {roomModel -> localToMovieMapper.map(roomModel) }
+                    it.map { roomModel -> localToMovieMapper.map(roomModel) }
                 )
             else
                 DataResponse.Failure(ERROR_DATABASE_GENERIC_MESSAGE)
@@ -39,10 +40,28 @@ class LocalDataSourceImpl(
         dao.deleteMovies()
     }
 
-    override suspend fun setFavoriteMovie(id: Long, isFavorite: Boolean): DataResponse<Boolean> {
-        return if (dao.setFavorite(MovieFavoriteRoomModel(id, isFavorite)) > NO_AFECTED_ROWS) {
-            DataResponse.Success(isFavorite)
+    override suspend fun setFavoriteMovie(id: Long, isFavorite: Boolean) =
+        if (isFavorite) insertFavorite(id) else deleteFavorite(id)
+
+
+    private suspend fun insertFavorite(id: Long): DataResponse<Boolean> {
+        return if (dao.insertFavorite(MovieFavoriteRoomModel(id)) > NO_AFECTED_ROWS) {
+            DataResponse.Success(true)
         } else DataResponse.Failure(ERROR_DATABASE_GENERIC_MESSAGE)
+    }
+
+
+    private suspend fun deleteFavorite(id: Long): DataResponse<Boolean> {
+        return if (dao.deleteFavorite(MovieFavoriteRoomModel(id)) > NO_AFECTED_ROWS) {
+            DataResponse.Success(false)
+        } else DataResponse.Failure(ERROR_DATABASE_GENERIC_MESSAGE)
+    }
+
+
+    override suspend fun checkIfFavorite(id: Long): DataResponse<Boolean> {
+        TODO()
+//        val res = dao.checkIfFavorite(id)
+//        return DataResponse.Success(res.isFavorite)
     }
 
 }
