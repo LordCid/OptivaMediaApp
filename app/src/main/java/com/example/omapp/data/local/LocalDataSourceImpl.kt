@@ -39,8 +39,10 @@ class LocalDataSourceImpl(
         dao.deleteMovies()
     }
 
-    override suspend fun setFavoriteMovie(id: Long, isFavorite: Boolean) : Boolean {
-        return dao.setFavorite(MovieFavoriteRoomModel(id, isFavorite)) > NO_AFECTED_ROWS
+    override suspend fun setFavoriteMovie(id: Long, isFavorite: Boolean): DataResponse<Boolean> {
+        return if (dao.setFavorite(MovieFavoriteRoomModel(id, isFavorite)) > NO_AFECTED_ROWS) {
+            DataResponse.Success(isFavorite)
+        } else DataResponse.Failure(ERROR_DATABASE_GENERIC_MESSAGE)
     }
 
 }

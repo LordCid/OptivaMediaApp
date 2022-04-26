@@ -1,8 +1,7 @@
 package com.example.omapp.data
 
+import com.example.omapp.common.DataResponse
 import com.example.omapp.data.local.LocalDataSource
-import com.example.omapp.data.local.room.MovieFavoriteRoomModel
-import com.example.omapp.data.network.NetworkDataSource
 import com.example.omapp.domain.Repository
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -28,12 +27,13 @@ class RepositorySetFavoriteTest {
         runBlocking {
             val id = 1234L
             val isFavorite = true
-            coEvery { localDataSource.setFavoriteMovie(any(), any()) } returns true
+            val expected = DataResponse.Success(isFavorite)
+            coEvery { localDataSource.setFavoriteMovie(any(), any()) } returns expected
 
             val actual = sut.setFavorite(id = id, isFavorite = isFavorite)
 
             coVerify { localDataSource.setFavoriteMovie(id, isFavorite) }
-            assertTrue(actual)
+            assertEquals(expected, actual)
         }
     }
 
@@ -42,12 +42,13 @@ class RepositorySetFavoriteTest {
         runBlocking {
             val id = 1234L
             val isFavorite = false
-            coEvery { localDataSource.setFavoriteMovie(any(), any()) } returns true
+            val expected = DataResponse.Success(isFavorite)
+            coEvery { localDataSource.setFavoriteMovie(any(), any()) } returns expected
 
             val actual = sut.setFavorite(id = id, isFavorite = isFavorite)
 
             coVerify { localDataSource.setFavoriteMovie(id, isFavorite) }
-            assertTrue(actual)
+            assertEquals(expected, actual)
         }
     }
 }

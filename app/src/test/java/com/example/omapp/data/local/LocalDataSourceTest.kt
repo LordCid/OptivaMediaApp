@@ -77,43 +77,46 @@ class LocalDataSourceTest {
     }
 
     @Test
-    fun `GIVEN movie id and local persistance succeds WHEN set favorite true THEN value is persisted and returns true`() {
+    fun `GIVEN movie id and persitance succeds WHEN set favorite true THEN value is persisted and returns true`() {
         runBlocking {
             val id = 1234L
             val movieRoomFavorite = MovieFavoriteRoomModel(id, true)
             coEvery { movieDao.setFavorite(any()) } returns 1L
+            val expected = DataResponse.Success(true)
 
             val actual = sut.setFavoriteMovie(id = id, isFavorite = true)
 
             coVerify { movieDao.setFavorite(movieRoomFavorite) }
-            assertTrue(actual)
+            assertEquals(expected, actual)
         }
     }
 
 
     @Test
-    fun `GIVEN movie id and local persistance succeds WHEN set favorite false THEN value is persisted and returns true`() {
+    fun `GIVEN movie id and persitance succeds WHEN set favorite false THEN value is persisted and returns isFavorite false`() {
         runBlocking {
             val id = 1234L
             val movieRoomFavorite = MovieFavoriteRoomModel(id, false)
             coEvery { movieDao.setFavorite(any()) } returns 1L
+            val expected = DataResponse.Success(false)
 
             val actual = sut.setFavoriteMovie(id = id, isFavorite = false)
 
             coVerify { movieDao.setFavorite(movieRoomFavorite) }
-            assertTrue(actual)
+            assertEquals(expected, actual)
         }
     }
 
     @Test
-    fun `GIVEN movie id and local persistance fails WHEN set favorite THEN returns false`() {
+    fun `GIVEN movie id and persitance fails WHEN set favorite false THEN value is persisted and returns isFavorite false`() {
         runBlocking {
             val id = 1234L
             coEvery { movieDao.setFavorite(any()) } returns 0L
+            val expected = DataResponse.Failure(ERROR_DATABASE_GENERIC_MESSAGE)
 
-            val actual = sut.setFavoriteMovie(id = id, isFavorite = true)
+            val actual = sut.setFavoriteMovie(id = id, isFavorite = false)
 
-            assertFalse(actual)
+            assertEquals(expected, actual)
         }
     }
 

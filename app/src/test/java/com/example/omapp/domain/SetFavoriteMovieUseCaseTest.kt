@@ -1,5 +1,6 @@
 package com.example.omapp.domain
 
+import com.example.omapp.common.DataResponse
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -24,12 +25,13 @@ class SetFavoriteMovieUseCaseTest {
         runBlocking {
             val id = 1234L
             val isFavorite = true
-            coEvery { repository.setFavorite(any(), any()) } returns true
+            val expected = DataResponse.Success(isFavorite)
+            coEvery { repository.setFavorite(any(), any()) } returns expected
 
             val actual = sut.invoke(id, isFavorite)
 
             coVerify { repository.setFavorite(id, isFavorite) }
-            assertTrue(actual)
+            assertEquals(expected, actual)
         }
     }
 
@@ -38,12 +40,13 @@ class SetFavoriteMovieUseCaseTest {
         runBlocking {
             val id = 4564L
             val isFavorite = false
-            coEvery { repository.setFavorite(any(), any()) } returns false
+            val expected = DataResponse.Success(isFavorite)
+            coEvery { repository.setFavorite(any(), any()) } returns expected
 
             val actual = sut.invoke(id, isFavorite)
 
             coVerify { repository.setFavorite(id, isFavorite) }
-            assertFalse(actual)
+            assertEquals(expected, actual)
         }
     }
 }

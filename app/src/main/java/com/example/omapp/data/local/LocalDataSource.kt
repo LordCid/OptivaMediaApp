@@ -7,5 +7,5 @@ interface LocalDataSource {
     suspend fun storeMovies(movies: List<Movie>)
     suspend fun getMovieList(): DataResponse<List<Movie>>
     suspend fun invalidate()
-    suspend fun setFavoriteMovie(id: Long, isFavorite: Boolean) : Boolean
+    suspend fun setFavoriteMovie(id: Long, isFavorite: Boolean) : DataResponse<Boolean>
 }

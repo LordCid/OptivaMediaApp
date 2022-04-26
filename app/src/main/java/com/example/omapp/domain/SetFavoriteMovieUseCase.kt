@@ -1,7 +1,9 @@
 package com.example.omapp.domain
 
+import com.example.omapp.common.DataResponse
+
 interface SetFavoriteMovieUseCase {
-    suspend operator fun invoke(id: Long, isFavorite: Boolean) : Boolean
+    suspend operator fun invoke(id: Long, isFavorite: Boolean) : DataResponse<Boolean>
 }
 
 class SetFavoriteMovieUseCaseImpl (

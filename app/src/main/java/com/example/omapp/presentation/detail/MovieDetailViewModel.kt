@@ -11,6 +11,7 @@ import com.example.omapp.domain.SetFavoriteMovieUseCase
 import com.example.omapp.domain.model.Movie
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 sealed class MovieDetailViewState {
@@ -45,8 +46,10 @@ class MovieDetailViewModel(
 
     fun setFavorite(id: Long, isFavorite: Boolean) {
         viewModelScope.launch {
-            val result = setFavoriteMovieUseCase(id, isFavorite)
-            mutableViewState.postValue(MovieDetailViewState.FavoriteUpdate(result))
+            when(val result = setFavoriteMovieUseCase(id, isFavorite)) {
+                is DataResponse.Failure -> mutableViewState.postValue(MovieDetailViewState.Error(result.message))
+                is DataResponse.Success ->  mutableViewState.postValue(MovieDetailViewState.FavoriteUpdate(result.data))
+            }
         }
     }
 

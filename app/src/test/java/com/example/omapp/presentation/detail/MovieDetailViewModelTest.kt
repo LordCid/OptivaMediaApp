@@ -132,10 +132,11 @@ class MovieDetailViewModelTest {
     }
 
     @Test
-    fun `GIVEN set Favorite succeds WHEN set Favorite movie true THEN Set Favorite Update View State`() {
+    fun `GIVEN set Favorite succeds WHEN set Favorite movie true THEN Set Favorite Update View State true`() {
         val id = 1234L
         val isFavorite = true
-        coEvery { setFavoriteMovieUseCase.invoke(any(), any()) } returns true
+        val expected = DataResponse.Success(isFavorite)
+        coEvery { setFavoriteMovieUseCase.invoke(any(), any()) } returns expected
 
         sut.viewState.observeForever(observer)
         sut.setFavorite(id, isFavorite)
@@ -145,6 +146,40 @@ class MovieDetailViewModelTest {
         assertTrue(captor[0] is MovieDetailViewState.FavoriteUpdate)
         val viewState = captor[0] as MovieDetailViewState.FavoriteUpdate
         assertEquals(isFavorite, viewState.isFavorite)
+    }
+
+    @Test
+    fun `GIVEN set Favorite succeds WHEN set Favorite movie false THEN Set Favorite Update View State false`() {
+        val id = 1234L
+        val isFavorite = false
+        val expected = DataResponse.Success(isFavorite)
+        coEvery { setFavoriteMovieUseCase.invoke(any(), any()) } returns expected
+
+        sut.viewState.observeForever(observer)
+        sut.setFavorite(id, isFavorite)
+
+        coVerify { setFavoriteMovieUseCase.invoke(id, isFavorite) }
+        verify { observer.onChanged(capture(captor)) }
+        assertTrue(captor[0] is MovieDetailViewState.FavoriteUpdate)
+        val viewState = captor[0] as MovieDetailViewState.FavoriteUpdate
+        assertEquals(isFavorite, viewState.isFavorite)
+    }
+
+    @Test
+    fun `GIVEN set Favorite fails WHEN set Favorite movie THEN Error View State`() {
+        val id = 1234L
+        val isFavorite = false
+        val expected = "Error message"
+        coEvery { setFavoriteMovieUseCase.invoke(any(), any()) } returns DataResponse.Failure(expected)
+
+        sut.viewState.observeForever(observer)
+        sut.setFavorite(id, isFavorite)
+
+        coVerify { setFavoriteMovieUseCase.invoke(id, isFavorite) }
+        verify { observer.onChanged(capture(captor)) }
+        assertTrue(captor[0] is MovieDetailViewState.Error)
+        val viewState = captor[0] as MovieDetailViewState.Error
+        assertEquals(expected, viewState.message)
     }
 
 }

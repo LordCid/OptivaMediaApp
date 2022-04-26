@@ -7,6 +7,6 @@ import java.util.*
 interface Repository {
     suspend fun getMovieList(page: Int) : DataResponse<List<Movie>>
     suspend fun getMovieDetail(id: String) : DataResponse<Movie>
-    suspend fun setFavorite(id: Long, isFavorite: Boolean) : Boolean
+    suspend fun setFavorite(id: Long, isFavorite: Boolean) : DataResponse<Boolean>
     var currentDate: () -> Date
 }
