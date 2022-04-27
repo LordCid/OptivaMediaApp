@@ -20,7 +20,8 @@ class RepositoryImpl(
     override suspend fun getMovieList(page: Int): DataResponse<List<Movie>> {
         cacheDate?.let {
             return if (currentDate().time <= it.time) {
-                localDataSource.getMovieList()
+                val result = localDataSource.getMovieList()
+                updateSuccessListResponseWithFavorites(result)
             } else {
                 localDataSource.invalidate()
                 getFromNetwork(page)
@@ -32,27 +33,34 @@ class RepositoryImpl(
 
     private suspend fun getFromNetwork(page: Int): DataResponse<List<Movie>> {
         val result = networkDataSource.getMovieList(page)
-        if (result is DataResponse.Success) {
+        return if (result is DataResponse.Success) {
             cacheDate = Date(currentDate().time + lifetime)
             localDataSource.storeMovies(result.data)
-        }
-        return result
+            updateSuccessListResponseWithFavorites(result)
+        } else result
     }
 
 
     override suspend fun getMovieDetail(id: String) =
         when (val result = networkDataSource.getDetail(id)) {
             is DataResponse.Success -> {
-                result.data.let {
-                    if (localDataSource.checkIfFavorite(it.id)) {
-                        DataResponse.Success(it.copy(isFavorite = true))
-                    } else {
-                        DataResponse.Success(it.copy(isFavorite = false))
-                    }
-                }
+                DataResponse.Success(setFavoriteMovieStatus(result.data))
             }
             else -> result
         }
+
+    private suspend fun setFavoriteMovieStatus(it: Movie) =
+        if (localDataSource.checkIfFavorite(it.id)) {
+            it.copy(isFavorite = true)
+        } else {
+            it.copy(isFavorite = false)
+        }
+
+    private suspend fun updateSuccessListResponseWithFavorites(result: DataResponse<List<Movie>>) =
+        if(result is DataResponse.Success){
+            DataResponse.Success(result.data.map { setFavoriteMovieStatus(it) })
+        } else result
+
 
 
     override suspend fun setFavorite(id: Long, isFavorite: Boolean) =

@@ -44,12 +44,13 @@ class MovieListFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         initUI()
         setViewModel()
-        setOnClickListeners()
     }
 
     private fun initUI() {
         movieAdapter = MovieAdapter(
-            imagesLoader = imagesLoader
+            imagesLoader = imagesLoader,
+            onCLick = onItemClickListener,
+            onClickFavorite = onFavoriteClickListener
         )
         binding?.apply {
             with(listView) {
@@ -62,19 +63,22 @@ class MovieListFragment : BaseFragment() {
 
     }
 
-    private fun setOnClickListeners(){
-        movieAdapter.onCLick = {
-            findNavController().navigate(
-                MovieListFragmentDirections.actionFirstFragmentToSecondFragment(id = it)
-            )
-        }
+    private var onItemClickListener : (String) -> Unit = {
+        findNavController().navigate(
+            MovieListFragmentDirections.actionFirstFragmentToSecondFragment(id = it)
+        )
     }
+
+    private var onFavoriteClickListener: (Long, Boolean) -> Unit = { id, isFavorite ->
+        viewModel.setFavorite(id, isFavorite)
+    }
+
 
     private fun setViewModel() {
         viewModel.viewState.observe(viewLifecycleOwner, ::updateUI)
         lifecycleScope.launch{
             viewModel.getMovies(
-                initialLoadListener = { hideLoadingDialogFragment() },
+//                initialLoadListener = { hideLoadingDialogFragment() },
                 scope = this
             )
         }
