@@ -1,14 +1,22 @@
 package com.example.omapp.presentation
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
+import androidx.paging.PagingData
+import androidx.paging.map
+import com.example.omapp.common.DataResponse
 import com.example.omapp.domain.GetMoviesUseCase
+import com.example.omapp.domain.SetFavoriteMovieUseCase
+import com.example.omapp.domain.model.Movie
+import com.example.omapp.movie
 import com.example.omapp.presentation.list.MovieListViewModel
 import io.mockk.*
+import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.*
 import org.junit.*
 
 class MovieListViewModelTest {
@@ -16,12 +24,16 @@ class MovieListViewModelTest {
     private lateinit var sut: MovieListViewModel
 
 
-    private val getMoviesUseCase = mockk<GetMoviesUseCase>()
+    private val observer = mockk<Observer<PagingData<Movie>>>(relaxed = true)
+    private val getMoviesUseCase = mockk<GetMoviesUseCase>(relaxed = true)
+    private val setFavoriteMovieUseCase = mockk<SetFavoriteMovieUseCase>(relaxed = true)
 
     @ExperimentalCoroutinesApi
-    private val dispatcher = TestCoroutineDispatcher()
+    private val scope = TestScope()
+    @ExperimentalCoroutinesApi
+    private val dispatcher = UnconfinedTestDispatcher()
 
-//    private val captor = mutableListOf<MovieListViewState>()
+    private val captor = slot<PagingData<Movie>>()
 
     @Rule
     @JvmField
@@ -31,57 +43,65 @@ class MovieListViewModelTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(dispatcher)
-        sut = MovieListViewModel(getMoviesUseCase, dispatcher)
+        sut = MovieListViewModel(getMoviesUseCase, setFavoriteMovieUseCase, dispatcher)
     }
 
     @ExperimentalCoroutinesApi
     @After
     fun tearDown() {
         Dispatchers.resetMain()
-        dispatcher.cleanupTestCoroutines()
     }
 
 
+    @ExperimentalCoroutinesApi
     @Test
-    fun `WHEN get Movies THEN Loading ViewState`() {
-//        val page = 1
-//
-//        sut.viewState.observeForever(observer)
-//        sut.getMovies(page)
-//
-//
-//        verify { observer.onChanged(capture(captor)) }
-//        assertTrue(captor[0] is MovieListViewState.Loading)
+    fun `GIVEN paged movie results WHEN get Movies THEN correct result is returned`() {
+        runBlocking {
+            val expected = movie
+            coEvery { getMoviesUseCase.invoke(any()) } returns flow { emit(PagingData.from(listOf(expected))) }
+
+            sut.viewState.observeForever(observer)
+            sut.getMovies(scope)
+
+
+            verify { observer.onChanged(capture(captor)) }
+            coVerify { getMoviesUseCase.invoke(scope) }
+            captor.captured.map { assertEquals(expected, it) }
+
+        }
+
     }
 
+    @ExperimentalCoroutinesApi
     @Test
-    fun `GIVEN movies from Use case WHEN get Movies THEN Show Data ViewState`() {
-//        val page = 1
-//        val expected = listOf(movie)
-//        coEvery { getMoviesUseCase.invoke(page) } returns DataResponse.Success(expected)
-//
-//        sut.viewState.observeForever(observer)
-//        sut.getMovies(page)
-//
-//
-//        coVerify { getMoviesUseCase.invoke(page) }
-//        verify { observer.onChanged(capture(captor)) }
-//        assertTrue(captor[1] is MovieListViewState.ShowMovies)
-//        val viewState = captor[1] as MovieListViewState.ShowMovies
-//        assertEquals(expected, viewState.data)
+    fun `GIVEN OTHER paged movie results WHEN get Movies THEN correct result is returned`() {
+        runBlocking {
+            val expected = movie
+            coEvery { getMoviesUseCase.invoke(any()) } returns flow { emit(PagingData.from(listOf(expected))) }
+
+            sut.viewState.observeForever(observer)
+            sut.getMovies(scope)
+
+
+            verify { observer.onChanged(capture(captor)) }
+            coVerify { getMoviesUseCase.invoke(scope) }
+            captor.captured.map { assertEquals(expected, it) }
+
+        }
     }
 
+    @ExperimentalCoroutinesApi
     @Test
-    fun `GIVEN failure WHEN get Movies THEN Error ViewState`() {
-//        val page = 1
-//        coEvery { getMoviesUseCase.invoke(page) } returns DataResponse.Failure
-//
-//        sut.viewState.observeForever(observer)
-//        sut.getMovies(page)
-//
-//
-//        coVerify { getMoviesUseCase.invoke(page) }
-//        verify { observer.onChanged(capture(captor)) }
-//        assertTrue(captor[1] is MovieListViewState.Error)
+    fun `GIVEN movie id and favorite true WHEN set Favorite THEN Use case is invoked and list is reloaded`() {
+        val id = 1234L
+        val isFavorite = true
+        coEvery { setFavoriteMovieUseCase.invoke(any(), any()) } returns DataResponse.Success(isFavorite)
+
+        sut.setFavorite(id, isFavorite)
+
+        coVerify { setFavoriteMovieUseCase.invoke(id, isFavorite) }
+        coVerify { getMoviesUseCase.invoke(any()) }
+
     }
+
 }
