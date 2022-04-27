@@ -49,33 +49,21 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
     //Paging
-    implementation 'androidx.paging:paging-runtime-ktx:3.1.1'
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation "androidx.paging:paging-runtime-ktx:$paging"
 
 
     //Testing
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.mockito:mockito-core:3.0.0'
     testImplementation 'io.mockk:mockk:1.12.0'
     testImplementation 'android.arch.core:core-testing:1.1.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
-    //Dagger
-    implementation "com.google.dagger:dagger:2.28"
-    annotationProcessor "com.google.dagger:dagger-compiler:2.28"
-    kapt "com.google.dagger:dagger-compiler:2.28"
-    implementation "com.google.dagger:dagger-android:2.35.1"
-    implementation "com.google.dagger:dagger-android-support:2.24"
-    annotationProcessor "com.google.dagger:dagger-android-processor:2.24"
-    kapt "com.google.dagger:dagger-android-processor:2.24"
-
 
     //Koin
-    implementation "io.insert-koin:koin-android:3.1.2"
+    implementation "io.insert-koin:koin-android:$koin_version"
 
     //Room
-    def room_version = "2.4.2"
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
@@ -83,23 +71,19 @@ dependencies {
     testImplementation "androidx.room:room-testing:$room_version" // optional - Test helpers
 
     //Glide
-    implementation "com.github.bumptech.glide:glide:4.11.0"
+    implementation "com.github.bumptech.glide:glide:$glide"
 
     //retrofit
-//    implementation "com.squareup.okhttp3:mockwebserver:4.3.1"
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation "com.squareup.retrofit2:converter-scalars:2.9.0"
-    testImplementation "com.squareup.retrofit2:retrofit-mock:2.9.0"
-    implementation "com.squareup.okhttp3:logging-interceptor:4.9.1"
-    implementation 'com.squareup.okhttp3:okhttp:4.9.1'
-//
-//    //Coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.7"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
+    testImplementation "com.squareup.retrofit2:retrofit-mock:$retrofit_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp"
 
-    //NavController
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.2'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.4.2'
+//    //Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
+
 }
