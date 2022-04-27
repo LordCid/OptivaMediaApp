@@ -3,6 +3,10 @@ package com.example.omapp
 import com.example.omapp.data.local.room.MovieRoomModel
 import com.example.omapp.data.network.model.*
 import com.example.omapp.domain.model.Movie
+//
+//const val ERROR_DATABASE_GENERIC_MESSAGE = "Error DataBase"
+//const val ERROR_NETWORK_GENERIC_MESSAGE = "Error Network"
+//const val ERROR_GENERIC_MESSAGE = "Error"
 
 val movieDTO =  MovieDTO(
     id = 12345,

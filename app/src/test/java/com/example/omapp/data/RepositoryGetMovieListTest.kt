@@ -19,8 +19,8 @@ import java.util.*
 class RepositoryGetMovieListTest {
 
     private lateinit var sut: Repository
-    private val networkDataSource = mockk<NetworkDataSource>()
-    private val localDataSource = mockk<LocalDataSource>()
+    private val networkDataSource = mockk<NetworkDataSource>(relaxed = true)
+    private val localDataSource = mockk<LocalDataSource>(relaxed = true)
 
     @Before
     fun setUp() {
@@ -79,7 +79,6 @@ class RepositoryGetMovieListTest {
             val movies = listOf(movie)
             givenPreviouslyStoredCache(movies)
             givenInstantWhenInvalidCache()
-            coEvery { localDataSource.invalidate() } returns Unit
 
             val actual = sut.getMovieList(page)
 
@@ -91,6 +90,36 @@ class RepositoryGetMovieListTest {
         }
     }
 
+    @Test
+    fun `GIVEN local cache valid WHEN get movie list THEN check movie favorite status`() {
+        runBlocking {
+            val page = 2
+            val id = 12345L
+            val movies = listOf(movie)
+            givenPreviouslyStoredCache(movies)
+            givenInstantWhenValidCache()
+
+            val actual = sut.getMovieList(page)
+
+            coVerify { localDataSource.checkIfFavorite(id) }
+            assertEquals(DataResponse.Success(movies), actual)
+        }
+    }
+
+    @Test
+    fun `GIVEN local cache invalid and Network success response WHEN get movie list THEN check movie favorite status`() {
+        runBlocking {
+            val page = 2
+            val id = 12345L
+            val movies = listOf(movie)
+            givenNoCacheAndMoviesFromNetwork(movies)
+
+            val actual = sut.getMovieList(page)
+
+            coVerify { localDataSource.checkIfFavorite(id) }
+            assertEquals(DataResponse.Success(movies), actual)
+        }
+    }
 
     private fun givenNoCacheAndMoviesFromNetwork(movies: List<Movie>) {
         coEvery { networkDataSource.getMovieList(any()) } returns DataResponse.Success(movies)
