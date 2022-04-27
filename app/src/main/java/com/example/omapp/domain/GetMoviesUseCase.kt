@@ -13,16 +13,16 @@ class GetMoviesUseCaseImpl(
     private val moviePagingSource: PagingSource<Int, Movie>
 ) : GetMoviesUseCase {
     companion object{
-        private const val TRX_INIT_LOAD_SIZE = 5
-        private const val TRX_PAGE_SIZE = 5
-        private const val TRX_PREFETCH_DISTANCE = 1
+        private const val INIT_LOAD_SIZE = 5
+        private const val PAGE_SIZE = 5
+        private const val PREFETCH_DISTANCE = 1
     }
 
     override suspend fun invoke(scope: CoroutineScope) : Flow<PagingData<Movie>> {
         return Pager(
             PagingConfig(
-                pageSize = TRX_PAGE_SIZE, prefetchDistance = TRX_PREFETCH_DISTANCE,
-                initialLoadSize = TRX_INIT_LOAD_SIZE, enablePlaceholders = true
+                pageSize = PAGE_SIZE, prefetchDistance = PREFETCH_DISTANCE,
+                initialLoadSize = INIT_LOAD_SIZE, enablePlaceholders = true
             )
         ) {
             moviePagingSource
